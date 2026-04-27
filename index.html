@@ -19,19 +19,26 @@
   --ff:'Outfit',sans-serif;--fm:'Space Mono',monospace;
 }
 html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);color:var(--tx);font-family:var(--ff);}
+.bg1{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 120% 50% at 5% 0%,rgba(91,141,238,0.25) 0%,transparent 55%),radial-gradient(ellipse 80% 50% at 100% 100%,rgba(167,139,250,0.18) 0%,transparent 55%),var(--bg);}
+.bg2{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(91,141,238,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(91,141,238,0.04) 1px,transparent 1px);background-size:44px 44px;}
 
-.bg1{position:fixed;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse 120% 50% at 5% 0%,rgba(91,141,238,0.25) 0%,transparent 55%),
-    radial-gradient(ellipse 80% 50% at 100% 100%,rgba(167,139,250,0.18) 0%,transparent 55%),
-    var(--bg);}
-.bg2{position:fixed;inset:0;z-index:0;
-  background-image:
-    linear-gradient(rgba(91,141,238,0.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(91,141,238,0.04) 1px,transparent 1px);
-  background-size:44px 44px;}
+/* SPLASH */
+.splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity 0.4s;}
+.splash.hide{opacity:0;pointer-events:none;}
+.splash-logo{width:72px;height:72px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:22px;transform:rotate(7deg);display:flex;align-items:center;justify-content:center;font-size:36px;}
+.splash-title{font-size:28px;font-weight:700;letter-spacing:-0.5px;}
+.splash-title b{color:var(--ac);}
+.spin{width:32px;height:32px;border:3px solid rgba(91,141,238,0.20);border-top-color:var(--ac);border-radius:50%;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.splash-msg{font-size:14px;color:var(--mu);}
 
 .page{position:relative;z-index:1;width:100%;max-width:540px;margin:0 auto;padding:env(safe-area-inset-top,16px) 16px calc(env(safe-area-inset-bottom,0px)+32px);padding-top:max(env(safe-area-inset-top),16px);}
+
+/* USER PILL */
+.upill{display:flex;align-items:center;gap:7px;padding:6px 11px 6px 7px;border-radius:30px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.10);font-size:12px;color:var(--mu);font-weight:600;white-space:nowrap;cursor:pointer;}
+.upill:active{background:rgba(255,255,255,0.10);}
+.uav{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.uid-short{font-family:var(--fm);font-size:11px;}
 
 /* SYNC STATUS */
 .sync-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;font-size:12px;font-weight:600;margin-bottom:14px;transition:all 0.3s;}
@@ -45,39 +52,33 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.85);}}
 
 /* HEADER */
-.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-top:8px;}
-.logo{display:flex;align-items:center;gap:12px;}
-.lbox{width:44px;height:44px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:13px;transform:rotate(7deg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.lname{font-size:21px;font-weight:700;letter-spacing:-0.5px;}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-top:8px;gap:10px;}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.lbox{width:40px;height:40px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:12px;transform:rotate(7deg);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.lname{font-size:19px;font-weight:700;letter-spacing:-0.5px;}
 .lname b{color:var(--ac);}
-.mnav{display:flex;align-items:center;gap:8px;}
-.mbtn{min-width:44px;height:44px;padding:0 10px;border-radius:12px;border:1.5px solid var(--b2);background:var(--s2);color:var(--tx);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;font-weight:700;touch-action:manipulation;user-select:none;}
+.hright{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;}
+.mnav{display:flex;align-items:center;gap:5px;}
+.mbtn{min-width:40px;height:40px;padding:0 8px;border-radius:11px;border:1.5px solid var(--b2);background:var(--s2);color:var(--tx);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;font-weight:700;touch-action:manipulation;user-select:none;}
 .mbtn:active{background:var(--ac);border-color:var(--ac);}
-.mlbl{font-family:var(--fm);font-size:12px;background:var(--s2);border:1.5px solid var(--b2);border-radius:12px;padding:10px 12px;letter-spacing:1.2px;font-weight:700;white-space:nowrap;}
+.mlbl{font-family:var(--fm);font-size:11px;background:var(--s2);border:1.5px solid var(--b2);border-radius:11px;padding:9px 10px;letter-spacing:1px;font-weight:700;white-space:nowrap;}
 
 /* CARDS */
 .card{background:var(--s1);border:1.5px solid var(--b1);border-radius:18px;padding:20px;position:relative;overflow:hidden;width:100%;margin-bottom:14px;}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.20),transparent);}
 .acard{background:linear-gradient(135deg,rgba(91,141,238,0.17),rgba(167,139,250,0.11));border-color:rgba(91,141,238,0.32);}
-
 .cl{font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--mu);margin-bottom:7px;}
 .cv{font-family:var(--fm);font-weight:700;line-height:1.1;}
 .cv.xl{font-size:38px;}
 .cv.lg{font-size:26px;}
-.cv.gr{color:var(--gr);}
-.cv.re{color:var(--re);}
-.cv.am{color:var(--am);}
 .csub{font-size:13px;color:var(--mu);margin-top:5px;}
-
 .bdg{display:inline-flex;align-items:center;padding:6px 13px;border-radius:20px;font-size:12px;font-weight:600;}
 .bgr{background:rgba(52,211,153,0.18);color:var(--gr);}
 .bre{background:rgba(248,113,113,0.18);color:var(--re);}
 .bam{background:rgba(251,191,36,0.18);color:var(--am);}
 .bbl{background:rgba(91,141,238,0.18);color:var(--ac);}
-
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .row2 .card{margin-bottom:0;}
-
 .rrow{display:flex;align-items:center;gap:16px;margin-top:14px;}
 
 /* TABS */
@@ -93,7 +94,7 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .fi::placeholder{color:var(--mu);}
 .fs{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(238,242,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
 .fs option{background:#141828;color:var(--tx);}
-.badd{width:100%;padding:17px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:var(--ff);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.3px;margin-top:6px;touch-action:manipulation;user-select:none;position:relative;overflow:hidden;}
+.badd{width:100%;padding:17px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:var(--ff);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.3px;margin-top:6px;touch-action:manipulation;user-select:none;}
 .badd:active{opacity:0.85;transform:scale(0.98);}
 .badd:disabled{opacity:0.5;cursor:not-allowed;}
 
@@ -145,41 +146,79 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .sr:last-child{border:none;}
 .sk{font-size:14px;color:var(--mu);}
 .sv{font-family:var(--fm);font-size:14px;font-weight:700;}
-
 .tip{background:rgba(52,211,153,0.08);border:1.5px solid rgba(52,211,153,0.20);border-radius:13px;padding:13px 15px;font-size:13px;color:var(--gr);line-height:1.7;margin-top:12px;}
 .emp{text-align:center;color:var(--mu);padding:26px 0;font-size:14px;}
 
-/* LOADING SKELETON */
-.skel{background:linear-gradient(90deg,rgba(255,255,255,0.05) 25%,rgba(255,255,255,0.10) 50%,rgba(255,255,255,0.05) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px;height:20px;}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.70);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-bg.show{opacity:1;pointer-events:all;}
+.modal{background:#141828;border:1.5px solid var(--b2);border-radius:22px;padding:24px;width:100%;max-width:480px;transform:translateY(30px);transition:transform 0.25s;}
+.modal-bg.show .modal{transform:translateY(0);}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:6px;}
+.modal p{font-size:13px;color:var(--mu);line-height:1.7;margin-bottom:16px;}
+.uid-box{background:rgba(255,255,255,0.06);border:1.5px solid var(--b1);border-radius:12px;padding:14px;font-family:var(--fm);font-size:12px;word-break:break-all;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.uid-box span{flex:1;color:var(--ac);}
+.copy-btn{padding:8px 14px;border-radius:9px;background:rgba(91,141,238,0.18);border:1.5px solid rgba(91,141,238,0.3);color:var(--ac);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.copy-btn:active{background:rgba(91,141,238,0.35);}
+.warn-box{display:flex;gap:10px;padding:10px 13px;border-radius:11px;background:rgba(251,191,36,0.08);border:1.5px solid rgba(251,191,36,0.18);font-size:12px;color:var(--am);line-height:1.6;margin-bottom:16px;}
+.modal-close{width:100%;padding:15px;border-radius:14px;border:none;background:rgba(255,255,255,0.08);color:var(--tx);font-size:15px;font-weight:600;cursor:pointer;}
+.modal-close:active{background:rgba(255,255,255,0.14);}
 </style>
 </head>
 <body>
 <div class="bg1"></div>
 <div class="bg2"></div>
-<div class="page">
+
+<!-- Loading splash -->
+<div class="splash" id="splash">
+  <div class="splash-logo">💰</div>
+  <div class="splash-title">Salary<b>Flow</b></div>
+  <div class="spin"></div>
+  <div class="splash-msg" id="splashMsg">Signing you in…</div>
+</div>
+
+<!-- Account info modal -->
+<div class="modal-bg" id="uidModal">
+  <div class="modal">
+    <h3>🔐 Your Private Account</h3>
+    <p>Your data is stored under a unique anonymous ID. Only your browser can see it — no one else can access your data.</p>
+    <div class="uid-box">
+      <span id="modalUid">—</span>
+      <button class="copy-btn" onclick="copyUid()">Copy</button>
+    </div>
+    <div class="warn-box">⚠️ Clearing browser data or using incognito will create a new account. Save your UID above if you want to restore data later.</div>
+    <button class="modal-close" onclick="closeModal()">Got it</button>
+  </div>
+</div>
+
+<div class="page" id="mainPage" style="display:none;">
 
 <div class="hdr">
   <div class="logo">
     <div class="lbox">💰</div>
     <div class="lname">Salary<b>Flow</b></div>
   </div>
-  <div class="mnav">
-    <button class="mbtn" onclick="cm(-1)">‹</button>
-    <div class="mlbl" id="mLbl">APR 2026</div>
-    <button class="mbtn" onclick="cm(1)">›</button>
+  <div class="hright">
+    <div class="mnav">
+      <button class="mbtn" onclick="cm(-1)">‹</button>
+      <div class="mlbl" id="mLbl">APR 2026</div>
+      <button class="mbtn" onclick="cm(1)">›</button>
+    </div>
+    <div class="upill" onclick="openModal()">
+      <div class="uav" id="uavEl">?</div>
+      <span class="uid-short" id="uidShort">···</span>
+    </div>
   </div>
 </div>
 
-<!-- Firebase Sync Status -->
 <div class="sync-bar syncing" id="syncBar">
   <div class="sync-dot"></div>
-  <span id="syncMsg">Connecting to Firebase…</span>
+  <span id="syncMsg">Connecting…</span>
 </div>
 
 <div class="card acard">
   <div class="cl">Net Take-Home</div>
-  <div class="cv xl gr" id="netPay">LKR 0</div>
+  <div class="cv xl" id="netPay" style="color:var(--gr);">LKR 0</div>
   <div class="rrow">
     <svg style="transform:rotate(-90deg);flex-shrink:0;" width="60" height="60" viewBox="0 0 60 60">
       <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6"/>
@@ -200,12 +239,12 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 <div class="row2">
   <div class="card">
     <div class="cl">Income</div>
-    <div class="cv lg am" id="totInc">LKR 0</div>
+    <div class="cv lg" style="color:var(--am);" id="totInc">LKR 0</div>
     <div class="csub" id="incN">0 sources</div>
   </div>
   <div class="card">
     <div class="cl">Expenses</div>
-    <div class="cv lg re" id="totExp">LKR 0</div>
+    <div class="cv lg" style="color:var(--re);" id="totExp">LKR 0</div>
     <div class="csub" id="expN">0 items</div>
   </div>
 </div>
@@ -213,8 +252,8 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 <div class="card">
   <div class="st">Add Transaction</div>
   <div class="tabs">
-    <button class="tab on" id="tabInc" onclick="setTab('income',this)">＋ Income</button>
-    <button class="tab" id="tabExp" onclick="setTab('expense',this)">＋ Expense</button>
+    <button class="tab on" onclick="setTab('income',this)">＋ Income</button>
+    <button class="tab" onclick="setTab('expense',this)">＋ Expense</button>
   </div>
   <div class="frow">
     <div>
@@ -238,12 +277,12 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 
 <div class="card">
   <div class="st">Transactions</div>
-  <div id="txList"><div class="emp">Loading…</div></div>
+  <div id="txList"><div class="emp">No transactions yet</div></div>
 </div>
 
 <div class="card">
   <div class="st">Breakdown by Category</div>
-  <div id="bdwn"><div class="emp">Loading…</div></div>
+  <div id="bdwn"><div class="emp">Add transactions to see breakdown</div></div>
   <div id="tipEl" style="display:none;" class="tip"></div>
 </div>
 
@@ -290,12 +329,12 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 
 </div>
 
-<!-- Firebase SDK (compat) -->
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
 <script>
-// ── Firebase Init ──────────────────────────────────────────────
+// ── Firebase Init ───────────────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyDcUfFiT6MgnlQmUW7S6yUzJKC0_QgT2pY",
   authDomain: "salary-mannagement.firebaseapp.com",
@@ -306,107 +345,140 @@ const firebaseConfig = {
   appId: "1:695486397682:web:3a4d49592b76696d4ba46b"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const auth = firebase.auth();
+const db   = firebase.database();
 
-// ── Constants ──────────────────────────────────────────────────
-const MN=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-const IC=['Salary','Freelance','Bonus','Investment','Other Income'];
-const EC=['Housing','Food','Transport','Utilities','Healthcare','Education','Entertainment','Other'];
-const ICO={Salary:'💼',Freelance:'💻',Bonus:'🎁',Investment:'📈','Other Income':'💳',
-  Housing:'🏠',Food:'🍱',Transport:'🚗',Utilities:'💡',Healthcare:'💊',
-  Education:'📚',Entertainment:'🎮',Other:'📦'};
+// ── Constants ───────────────────────────────────────────────────────────
+const MN  = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const IC  = ['Salary','Freelance','Bonus','Investment','Other Income'];
+const EC  = ['Housing','Food','Transport','Utilities','Healthcare','Education','Entertainment','Other'];
+const ICO = {Salary:'💼',Freelance:'💻',Bonus:'🎁',Investment:'📈','Other Income':'💳',
+  Housing:'🏠',Food:'🍱',Transport:'🚗',Utilities:'💡',Healthcare:'💊',Education:'📚',Entertainment:'🎮',Other:'📦'};
 
-// ── State ──────────────────────────────────────────────────────
+// ── App State ────────────────────────────────────────────────────────────
 let tab='income', mi=3, yr=2026;
-let AD = {};       // local cache: { "2026-3": { t: [...] } }
-let activeListeners = {};  // track Firebase listeners per key
+let AD={}, UID=null, activeListeners={};
 
-// ── Helpers ───────────────────────────────────────────────────
-function mk(y,m){ return y+'-'+m; }
-function fmt(n){ return 'LKR '+Math.round(n).toLocaleString(); }
+// ── Utils ────────────────────────────────────────────────────────────────
+const mk  = (y,m) => `${y}-${m}`;
+const fmt = n => 'LKR '+Math.round(n).toLocaleString();
+
 function setSyncStatus(state, msg){
-  const bar = document.getElementById('syncBar');
-  bar.className = 'sync-bar ' + state;
-  document.getElementById('syncMsg').textContent = msg;
+  const b=document.getElementById('syncBar');
+  b.className='sync-bar '+state;
+  document.getElementById('syncMsg').textContent=msg;
 }
 
-// ── Firebase path for a month key ─────────────────────────────
-function fbPath(key){ return 'salaryflow/months/' + key.replace('-','_'); }
+// Each user's data lives at: users/{UID}/...
+// This means User A can NEVER read/write User B's data
+function fbTxPath(key){ return `users/${UID}/months/${key.replace('-','_')}/transactions`; }
+function fbGoalPath(){ return `users/${UID}/goal`; }
 
-// ── Listen to current month in real-time ─────────────────────
-function listenMonth(key){
-  if(activeListeners[key]) return; // already listening
-  const ref = db.ref(fbPath(key) + '/transactions');
-  const handler = ref.on('value', snap => {
-    const raw = snap.val();
-    const txArr = raw ? Object.values(raw) : [];
-    if(!AD[key]) AD[key] = {t:[]};
-    AD[key].t = txArr;
-    render();
-    setSyncStatus('synced', '☁️ Synced with Firebase');
-  }, err => {
-    setSyncStatus('error', '⚠️ Sync error — ' + err.message);
+// ── Authentication ───────────────────────────────────────────────────────
+// LOCAL persistence = UID survives page refresh/close
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+auth.onAuthStateChanged(user => {
+  if(user){
+    UID = user.uid;
+    onUserReady();
+  } else {
+    document.getElementById('splashMsg').textContent = 'Creating your private account…';
+    auth.signInAnonymously().catch(err => {
+      document.getElementById('splashMsg').textContent = '⚠️ Auth failed: '+err.message;
+    });
+  }
+});
+
+function onUserReady(){
+  // Build short display ID (first 6 chars of UID)
+  const short = UID.slice(0,6).toUpperCase();
+  document.getElementById('uavEl').textContent     = short.slice(0,2);
+  document.getElementById('uidShort').textContent  = short;
+  document.getElementById('modalUid').textContent  = UID;
+
+  // Reveal app, hide splash
+  document.getElementById('splashMsg').textContent = 'Welcome!';
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('hide');
+    document.getElementById('mainPage').style.display = '';
+  }, 350);
+
+  loadGoal();
+  listenMonth(mk(yr, mi));
+}
+
+// ── Account Modal ────────────────────────────────────────────────────────
+function openModal(){ document.getElementById('uidModal').classList.add('show'); }
+function closeModal(){ document.getElementById('uidModal').classList.remove('show'); }
+function copyUid(){
+  navigator.clipboard.writeText(UID).then(()=>{
+    const b=document.querySelector('.copy-btn');
+    b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',2000);
   });
-  activeListeners[key] = handler;
+}
 
-  // Also load last 6 months history (one-time read, no real-time needed)
+// ── Real-time listener (scoped to UID) ───────────────────────────────────
+function listenMonth(key){
+  if(activeListeners[key]) return;
+  activeListeners[key] = true;
+
+  db.ref(fbTxPath(key)).on('value', snap => {
+    const raw = snap.val();
+    AD[key] = {t: raw ? Object.values(raw) : []};
+    render();
+    setSyncStatus('synced','☁️ Synced · Your private data');
+  }, err => setSyncStatus('error','⚠️ '+err.message));
+
+  // Load surrounding 5 months for trend chart (one-time)
   for(let i=1;i<=5;i++){
     let hm=mi-i, hy=yr;
     if(hm<0){hm+=12;hy--;}
     const hk=mk(hy,hm);
     if(!AD[hk]){
-      db.ref(fbPath(hk)+'/transactions').once('value').then(s=>{
-        const raw=s.val();
-        AD[hk]={t: raw ? Object.values(raw) : []};
+      db.ref(fbTxPath(hk)).once('value').then(s=>{
+        AD[hk]={t: s.val() ? Object.values(s.val()) : []};
         render();
       });
     }
   }
 }
 
-// ── Load goal from Firebase ────────────────────────────────────
+// ── Goal ─────────────────────────────────────────────────────────────────
 function loadGoal(){
-  db.ref('salaryflow/goal').once('value').then(s=>{
-    const v = s.val();
-    if(v) document.getElementById('gAmt').value = v;
-    render();
+  db.ref(fbGoalPath()).once('value').then(s=>{
+    const v=s.val(); if(v) document.getElementById('gAmt').value=v; render();
   });
 }
-
-// ── Save goal to Firebase ──────────────────────────────────────
 let goalTimer;
 function saveGoal(){
   clearTimeout(goalTimer);
-  goalTimer = setTimeout(()=>{
-    const v = parseFloat(document.getElementById('gAmt').value)||0;
-    db.ref('salaryflow/goal').set(v);
+  goalTimer=setTimeout(()=>{
+    db.ref(fbGoalPath()).set(parseFloat(document.getElementById('gAmt').value)||0);
     render();
-  }, 600);
+  },600);
 }
 
-// ── Tab logic ─────────────────────────────────────────────────
+// ── Tab ───────────────────────────────────────────────────────────────────
 function setTab(t,el){
   tab=t;
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
   const s=document.getElementById('cat'); s.innerHTML='';
-  (t==='income'?IC:EC).forEach(c=>{
-    const o=document.createElement('option'); o.textContent=c; s.appendChild(o);
-  });
+  (t==='income'?IC:EC).forEach(c=>{const o=document.createElement('option');o.textContent=c;s.appendChild(o);});
 }
 
-// ── Month navigation ──────────────────────────────────────────
+// ── Month nav ─────────────────────────────────────────────────────────────
 function cm(d){
   mi+=d; if(mi>11){mi=0;yr++;} if(mi<0){mi=11;yr--;}
   document.getElementById('mLbl').textContent=MN[mi]+' '+yr;
-  // Switch real-time listener to new month
   const key=mk(yr,mi);
-  if(!activeListeners[key]) listenMonth(key);
-  else render();
+  if(!activeListeners[key]) listenMonth(key); else render();
 }
 
-// ── Add transaction → Firebase ────────────────────────────────
+// ── Add Transaction ───────────────────────────────────────────────────────
 function addTx(){
+  if(!UID) return;
   const dEl=document.getElementById('dsc');
   const d=dEl.value.trim();
   const a=parseFloat(document.getElementById('amt').value);
@@ -416,47 +488,25 @@ function addTx(){
     setTimeout(()=>{dEl.style.borderColor=''; dEl.placeholder='e.g. Salary';},1200);
     return;
   }
-
   const btn=document.getElementById('addBtn');
   btn.disabled=true; btn.textContent='Saving…';
-
-  const key=mk(yr,mi);
-  const id=Date.now();
-  const tx={
-    id,
-    tp: tab,
-    d,
-    a,
-    c,
-    dt: new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'})
-  };
-
-  // Push to Firebase — real-time listener will pick it up automatically
-  db.ref(fbPath(key)+'/transactions/'+id).set(tx)
-    .then(()=>{
-      dEl.value=''; document.getElementById('amt').value='';
-      btn.disabled=false; btn.textContent='＋ Add Transaction';
-      setSyncStatus('synced','☁️ Saved to Firebase');
-    })
-    .catch(err=>{
-      btn.disabled=false; btn.textContent='＋ Add Transaction';
-      setSyncStatus('error','⚠️ Save failed — '+err.message);
-    });
+  const key=mk(yr,mi), id=Date.now();
+  const tx={id,tp:tab,d,a,c,dt:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'})};
+  // Written to users/{UID}/... — completely isolated
+  db.ref(fbTxPath(key)+'/'+id).set(tx)
+    .then(()=>{ dEl.value=''; document.getElementById('amt').value=''; btn.disabled=false; btn.textContent='＋ Add Transaction'; })
+    .catch(err=>{ btn.disabled=false; btn.textContent='＋ Add Transaction'; setSyncStatus('error','⚠️ '+err.message); });
 }
 
-// ── Delete transaction ────────────────────────────────────────
+// ── Delete ────────────────────────────────────────────────────────────────
 function del(id){
-  const key=mk(yr,mi);
-  db.ref(fbPath(key)+'/transactions/'+id).remove()
-    .then(()=> setSyncStatus('synced','☁️ Deleted & synced'))
-    .catch(err=> setSyncStatus('error','⚠️ Delete failed — '+err.message));
+  db.ref(fbTxPath(mk(yr,mi))+'/'+id).remove()
+    .catch(err=>setSyncStatus('error','⚠️ '+err.message));
 }
 
-// ── Render ────────────────────────────────────────────────────
+// ── Render ────────────────────────────────────────────────────────────────
 function render(){
-  const key=mk(yr,mi);
-  const ts=(AD[key]&&AD[key].t)||[];
-
+  const key=mk(yr,mi), ts=(AD[key]&&AD[key].t)||[];
   const inc=ts.filter(t=>t.tp==='income').reduce((s,t)=>s+t.a,0);
   const exp=ts.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.a,0);
   const net=inc-exp, rate=inc>0?Math.round((net/inc)*100):0;
@@ -468,17 +518,14 @@ function render(){
   document.getElementById('sRate').textContent=rate+'%';
   document.getElementById('incN').textContent=ts.filter(t=>t.tp==='income').length+' sources';
   document.getElementById('expN').textContent=ts.filter(t=>t.tp==='expense').length+' items';
-
-  const ring=document.getElementById('ring');
-  ring.style.strokeDashoffset=151-(151*Math.min(Math.max(rate,0),100)/100);
+  document.getElementById('ring').style.strokeDashoffset=151-(151*Math.min(Math.max(rate,0),100)/100);
   const sb=document.getElementById('sBdg');
   if(rate>=30){sb.textContent='Excellent savings!';sb.className='bdg bgr';}
   else if(rate>=15){sb.textContent='On track ✓';sb.className='bdg bam';}
   else if(inc>0){sb.textContent='Needs improvement';sb.className='bdg bre';}
   else{sb.textContent='Add data →';sb.className='bdg bbl';}
 
-  const tl=document.getElementById('txList');
-  tl.innerHTML=ts.length?ts.slice().reverse().map(t=>`
+  document.getElementById('txList').innerHTML=ts.length?ts.slice().reverse().map(t=>`
     <div class="ti">
       <div class="tic" style="background:${t.tp==='income'?'rgba(52,211,153,0.14)':'rgba(248,113,113,0.14)'}">
         <span style="font-size:22px;line-height:1;">${ICO[t.c]||'💰'}</span>
@@ -496,25 +543,18 @@ function render(){
 
   const cm2={};
   ts.forEach(t=>{if(!cm2[t.c])cm2[t.c]={i:0,e:0};cm2[t.c][t.tp==='income'?'i':'e']+=t.a;});
-  const ck=Object.keys(cm2);
-  const mx=Math.max(...ck.map(c=>Math.max(cm2[c].i||0,cm2[c].e||0)),1);
-  const bdEl=document.getElementById('bdwn'),tipEl=document.getElementById('tipEl');
+  const ck=Object.keys(cm2), mx=Math.max(...ck.map(c=>Math.max(cm2[c].i||0,cm2[c].e||0)),1);
+  const bdEl=document.getElementById('bdwn'), tipEl=document.getElementById('tipEl');
   bdEl.innerHTML=ck.length?ck.map(c=>{
     const v=Math.max(cm2[c].i||0,cm2[c].e||0),isI=cm2[c].i>0,p=Math.round((v/mx)*100);
-    return`<div class="bw">
-      <div class="blb">
-        <span><span style="font-size:18px;line-height:1;">${ICO[c]||'📦'}</span> ${c}</span>
-        <span class="bval" style="color:${isI?'var(--gr)':'var(--re)'}">${isI?'+':'-'}${Math.round(v).toLocaleString()}</span>
-      </div>
-      <div class="bt"><div class="bf ${isI?'fgr':'fre'}" style="width:${p}%"></div></div>
-    </div>`;}).join('')
-    :'<div class="emp">Add transactions to see breakdown</div>';
+    return`<div class="bw"><div class="blb"><span><span style="font-size:18px;line-height:1;">${ICO[c]||'📦'}</span> ${c}</span>
+      <span class="bval" style="color:${isI?'var(--gr)':'var(--re)'}">${isI?'+':'-'}${Math.round(v).toLocaleString()}</span>
+    </div><div class="bt"><div class="bf ${isI?'fgr':'fre'}" style="width:${p}%"></div></div></div>`;
+  }).join(''):'<div class="emp">Add transactions to see breakdown</div>';
 
   if(exp>0&&inc>0){
     const rr=Math.round((exp/inc)*100);
-    tipEl.textContent=rr>80?'⚠️ Spending is '+rr+'% of income — review major expenses!':
-      rr>60?'🔍 Expenses at '+rr+'% of income — look for savings opportunities.':
-      '✅ Great! Expenses are only '+rr+'% of income.';
+    tipEl.textContent=rr>80?'⚠️ Spending is '+rr+'% of income — review major expenses!':rr>60?'🔍 Expenses at '+rr+'% of income — look for savings.':'✅ Great! Expenses are only '+rr+'% of income.';
     tipEl.style.display='block';
   }else tipEl.style.display='none';
 
@@ -527,47 +567,25 @@ function render(){
     <div class="sr"><span class="sk" style="color:var(--tx);font-weight:700;font-size:15px;">✨ Net Available</span>
       <span class="sv" style="color:${net>=0?'var(--gr)':'var(--re)'};font-size:17px;">${fmt(net)}</span></div>`;
 
-  const m6=Array.from({length:6},(_,i)=>{
-    let m2=mi-5+i,y2=yr; if(m2<0){m2+=12;y2--;}
-    return{l:MN[m2].slice(0,3),k:mk(y2,m2)};
-  });
-  const mb=Math.max(...m6.map(m=>{
-    const d2=AD[m.k]; if(!d2) return 0;
-    const i2=d2.t.filter(t=>t.tp==='income').reduce((s,t)=>s+t.a,0);
-    const e2=d2.t.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.a,0);
-    return Math.max(i2,e2);
-  }),1);
-
+  const m6=Array.from({length:6},(_,i)=>{let m2=mi-5+i,y2=yr;if(m2<0){m2+=12;y2--;}return{l:MN[m2].slice(0,3),k:mk(y2,m2)};});
+  const mb=Math.max(...m6.map(m=>{const d2=AD[m.k];if(!d2)return 0;return Math.max(d2.t.filter(t=>t.tp==='income').reduce((s,t)=>s+t.a,0),d2.t.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.a,0));}),1);
   document.getElementById('trend').innerHTML=m6.map(m=>{
     const d2=AD[m.k],cur=m.k===mk(yr,mi);
     const i2=d2?d2.t.filter(t=>t.tp==='income').reduce((s,t)=>s+t.a,0):0;
     const e2=d2?d2.t.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.a,0):0;
     const ih=Math.round((i2/mb)*84),eh=Math.round((e2/mb)*84);
-    return`<div class="cbw">
-      <div style="display:flex;gap:3px;align-items:flex-end;height:84px;">
-        <div class="cbo" style="width:13px;height:84px;">
-          <div class="cbi" style="background:var(--ac);height:${ih}px;animation:growH 0.8s ease forwards;"></div>
-        </div>
-        <div class="cbo" style="width:13px;height:84px;">
-          <div class="cbi" style="background:var(--re);height:${eh}px;animation:growH 0.8s ease forwards;"></div>
-        </div>
-      </div>
-      <div class="clb" style="color:${cur?'var(--tx)':'var(--mu)'};font-weight:${cur?700:400};">${m.l}</div>
-    </div>`;}).join('');
+    return`<div class="cbw"><div style="display:flex;gap:3px;align-items:flex-end;height:84px;">
+      <div class="cbo" style="width:13px;height:84px;"><div class="cbi" style="background:var(--ac);height:${ih}px;animation:growH 0.8s ease forwards;"></div></div>
+      <div class="cbo" style="width:13px;height:84px;"><div class="cbi" style="background:var(--re);height:${eh}px;animation:growH 0.8s ease forwards;"></div></div>
+    </div><div class="clb" style="color:${cur?'var(--tx)':'var(--mu)'};font-weight:${cur?700:400};">${m.l}</div></div>`;
+  }).join('');
 
-  const goal=parseFloat(document.getElementById('gAmt').value)||0;
-  const sav=Math.max(net,0);
+  const goal=parseFloat(document.getElementById('gAmt').value)||0, sav=Math.max(net,0);
   const gp=goal>0?Math.min(Math.round((sav/goal)*100),100):0;
   document.getElementById('gPct').textContent=gp+'%';
   document.getElementById('donut').style.strokeDashoffset=251-(251*gp/100);
-  const gs=document.getElementById('gSt');
-  gs.textContent=goal>0?(sav>=goal?'🎉 Goal achieved!':fmt(sav)+' of '+fmt(goal)):'Set a target above';
+  document.getElementById('gSt').textContent=goal>0?(sav>=goal?'🎉 Goal achieved!':fmt(sav)+' of '+fmt(goal)):'Set a target above';
 }
-
-// ── Boot ──────────────────────────────────────────────────────
-setSyncStatus('syncing','Connecting to Firebase…');
-loadGoal();
-listenMonth(mk(yr, mi));
 </script>
 </body>
 </html>
