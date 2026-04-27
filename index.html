@@ -33,6 +33,17 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 
 .page{position:relative;z-index:1;width:100%;max-width:540px;margin:0 auto;padding:env(safe-area-inset-top,16px) 16px calc(env(safe-area-inset-bottom,0px)+32px);padding-top:max(env(safe-area-inset-top),16px);}
 
+/* SYNC STATUS */
+.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;font-size:12px;font-weight:600;margin-bottom:14px;transition:all 0.3s;}
+.sync-bar.syncing{background:rgba(91,141,238,0.12);border:1.5px solid rgba(91,141,238,0.25);color:var(--ac);}
+.sync-bar.synced{background:rgba(52,211,153,0.10);border:1.5px solid rgba(52,211,153,0.22);color:var(--gr);}
+.sync-bar.error{background:rgba(248,113,113,0.10);border:1.5px solid rgba(248,113,113,0.22);color:var(--re);}
+.sync-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sync-bar.syncing .sync-dot{background:var(--ac);animation:pulse 1s infinite;}
+.sync-bar.synced .sync-dot{background:var(--gr);}
+.sync-bar.error .sync-dot{background:var(--re);}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.85);}}
+
 /* HEADER */
 .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-top:8px;}
 .logo{display:flex;align-items:center;gap:12px;}
@@ -82,8 +93,9 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .fi::placeholder{color:var(--mu);}
 .fs{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(238,242,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
 .fs option{background:#141828;color:var(--tx);}
-.badd{width:100%;padding:17px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:var(--ff);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.3px;margin-top:6px;touch-action:manipulation;user-select:none;}
+.badd{width:100%;padding:17px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:var(--ff);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.3px;margin-top:6px;touch-action:manipulation;user-select:none;position:relative;overflow:hidden;}
 .badd:active{opacity:0.85;transform:scale(0.98);}
+.badd:disabled{opacity:0.5;cursor:not-allowed;}
 
 /* SECTION TITLE */
 .st{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
@@ -136,6 +148,10 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 
 .tip{background:rgba(52,211,153,0.08);border:1.5px solid rgba(52,211,153,0.20);border-radius:13px;padding:13px 15px;font-size:13px;color:var(--gr);line-height:1.7;margin-top:12px;}
 .emp{text-align:center;color:var(--mu);padding:26px 0;font-size:14px;}
+
+/* LOADING SKELETON */
+.skel{background:linear-gradient(90deg,rgba(255,255,255,0.05) 25%,rgba(255,255,255,0.10) 50%,rgba(255,255,255,0.05) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px;height:20px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 </style>
 </head>
 <body>
@@ -153,6 +169,12 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
     <div class="mlbl" id="mLbl">APR 2026</div>
     <button class="mbtn" onclick="cm(1)">›</button>
   </div>
+</div>
+
+<!-- Firebase Sync Status -->
+<div class="sync-bar syncing" id="syncBar">
+  <div class="sync-dot"></div>
+  <span id="syncMsg">Connecting to Firebase…</span>
 </div>
 
 <div class="card acard">
@@ -211,17 +233,17 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
       <option>Investment</option><option>Other Income</option>
     </select>
   </div>
-  <button class="badd" onclick="addTx()">＋ Add Transaction</button>
+  <button class="badd" id="addBtn" onclick="addTx()">＋ Add Transaction</button>
 </div>
 
 <div class="card">
   <div class="st">Transactions</div>
-  <div id="txList"><div class="emp">No transactions yet — add one above</div></div>
+  <div id="txList"><div class="emp">Loading…</div></div>
 </div>
 
 <div class="card">
   <div class="st">Breakdown by Category</div>
-  <div id="bdwn"><div class="emp">Add transactions to see breakdown</div></div>
+  <div id="bdwn"><div class="emp">Loading…</div></div>
   <div id="tipEl" style="display:none;" class="tip"></div>
 </div>
 
@@ -259,7 +281,7 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
       </div>
       <div style="width:100%;">
         <div class="fl">Target LKR</div>
-        <input class="fi" id="gAmt" type="number" inputmode="decimal" placeholder="100000" oninput="render()" style="width:100%;font-size:14px;padding:12px 10px;"/>
+        <input class="fi" id="gAmt" type="number" inputmode="decimal" placeholder="100000" oninput="saveGoal()" style="width:100%;font-size:14px;padding:12px 10px;"/>
       </div>
       <div style="font-size:11px;color:var(--mu);text-align:center;margin-top:10px;line-height:1.5;" id="gSt">Set a target above</div>
     </div>
@@ -267,7 +289,26 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 </div>
 
 </div>
+
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
+// ── Firebase Init ──────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyDcUfFiT6MgnlQmUW7S6yUzJKC0_QgT2pY",
+  authDomain: "salary-mannagement.firebaseapp.com",
+  databaseURL: "https://salary-mannagement-default-rtdb.firebaseio.com",
+  projectId: "salary-mannagement",
+  storageBucket: "salary-mannagement.firebasestorage.app",
+  messagingSenderId: "695486397682",
+  appId: "1:695486397682:web:3a4d49592b76696d4ba46b"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ── Constants ──────────────────────────────────────────────────
 const MN=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 const IC=['Salary','Freelance','Bonus','Investment','Other Income'];
 const EC=['Housing','Food','Transport','Utilities','Healthcare','Education','Entertainment','Other'];
@@ -275,49 +316,150 @@ const ICO={Salary:'💼',Freelance:'💻',Bonus:'🎁',Investment:'📈','Other 
   Housing:'🏠',Food:'🍱',Transport:'🚗',Utilities:'💡',Healthcare:'💊',
   Education:'📚',Entertainment:'🎮',Other:'📦'};
 
-let tab='income',mi=3,yr=2026,AD={};
-function mk(y,m){return y+'-'+m;}
-function gd(){let k=mk(yr,mi);if(!AD[k])AD[k]={t:[]};return AD[k];}
-function fmt(n){return 'LKR '+Math.round(n).toLocaleString();}
+// ── State ──────────────────────────────────────────────────────
+let tab='income', mi=3, yr=2026;
+let AD = {};       // local cache: { "2026-3": { t: [...] } }
+let activeListeners = {};  // track Firebase listeners per key
 
+// ── Helpers ───────────────────────────────────────────────────
+function mk(y,m){ return y+'-'+m; }
+function fmt(n){ return 'LKR '+Math.round(n).toLocaleString(); }
+function setSyncStatus(state, msg){
+  const bar = document.getElementById('syncBar');
+  bar.className = 'sync-bar ' + state;
+  document.getElementById('syncMsg').textContent = msg;
+}
+
+// ── Firebase path for a month key ─────────────────────────────
+function fbPath(key){ return 'salaryflow/months/' + key.replace('-','_'); }
+
+// ── Listen to current month in real-time ─────────────────────
+function listenMonth(key){
+  if(activeListeners[key]) return; // already listening
+  const ref = db.ref(fbPath(key) + '/transactions');
+  const handler = ref.on('value', snap => {
+    const raw = snap.val();
+    const txArr = raw ? Object.values(raw) : [];
+    if(!AD[key]) AD[key] = {t:[]};
+    AD[key].t = txArr;
+    render();
+    setSyncStatus('synced', '☁️ Synced with Firebase');
+  }, err => {
+    setSyncStatus('error', '⚠️ Sync error — ' + err.message);
+  });
+  activeListeners[key] = handler;
+
+  // Also load last 6 months history (one-time read, no real-time needed)
+  for(let i=1;i<=5;i++){
+    let hm=mi-i, hy=yr;
+    if(hm<0){hm+=12;hy--;}
+    const hk=mk(hy,hm);
+    if(!AD[hk]){
+      db.ref(fbPath(hk)+'/transactions').once('value').then(s=>{
+        const raw=s.val();
+        AD[hk]={t: raw ? Object.values(raw) : []};
+        render();
+      });
+    }
+  }
+}
+
+// ── Load goal from Firebase ────────────────────────────────────
+function loadGoal(){
+  db.ref('salaryflow/goal').once('value').then(s=>{
+    const v = s.val();
+    if(v) document.getElementById('gAmt').value = v;
+    render();
+  });
+}
+
+// ── Save goal to Firebase ──────────────────────────────────────
+let goalTimer;
+function saveGoal(){
+  clearTimeout(goalTimer);
+  goalTimer = setTimeout(()=>{
+    const v = parseFloat(document.getElementById('gAmt').value)||0;
+    db.ref('salaryflow/goal').set(v);
+    render();
+  }, 600);
+}
+
+// ── Tab logic ─────────────────────────────────────────────────
 function setTab(t,el){
   tab=t;
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
-  const s=document.getElementById('cat');s.innerHTML='';
-  (t==='income'?IC:EC).forEach(c=>{const o=document.createElement('option');o.textContent=c;s.appendChild(o);});
+  const s=document.getElementById('cat'); s.innerHTML='';
+  (t==='income'?IC:EC).forEach(c=>{
+    const o=document.createElement('option'); o.textContent=c; s.appendChild(o);
+  });
 }
 
+// ── Month navigation ──────────────────────────────────────────
 function cm(d){
-  mi+=d;if(mi>11){mi=0;yr++;}if(mi<0){mi=11;yr--;}
+  mi+=d; if(mi>11){mi=0;yr++;} if(mi<0){mi=11;yr--;}
   document.getElementById('mLbl').textContent=MN[mi]+' '+yr;
-  render();
+  // Switch real-time listener to new month
+  const key=mk(yr,mi);
+  if(!activeListeners[key]) listenMonth(key);
+  else render();
 }
 
+// ── Add transaction → Firebase ────────────────────────────────
 function addTx(){
   const dEl=document.getElementById('dsc');
   const d=dEl.value.trim();
   const a=parseFloat(document.getElementById('amt').value);
   const c=document.getElementById('cat').value;
   if(!d||!a||a<=0){
-    dEl.style.borderColor='var(--re)';
-    dEl.placeholder='Enter a description!';
-    setTimeout(()=>{dEl.style.borderColor='';dEl.placeholder='e.g. Salary';},1200);
+    dEl.style.borderColor='var(--re)'; dEl.placeholder='Enter a description!';
+    setTimeout(()=>{dEl.style.borderColor=''; dEl.placeholder='e.g. Salary';},1200);
     return;
   }
-  gd().t.push({id:Date.now(),tp:tab,d,a,c,
-    dt:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'})});
-  dEl.value='';document.getElementById('amt').value='';
-  render();
+
+  const btn=document.getElementById('addBtn');
+  btn.disabled=true; btn.textContent='Saving…';
+
+  const key=mk(yr,mi);
+  const id=Date.now();
+  const tx={
+    id,
+    tp: tab,
+    d,
+    a,
+    c,
+    dt: new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'})
+  };
+
+  // Push to Firebase — real-time listener will pick it up automatically
+  db.ref(fbPath(key)+'/transactions/'+id).set(tx)
+    .then(()=>{
+      dEl.value=''; document.getElementById('amt').value='';
+      btn.disabled=false; btn.textContent='＋ Add Transaction';
+      setSyncStatus('synced','☁️ Saved to Firebase');
+    })
+    .catch(err=>{
+      btn.disabled=false; btn.textContent='＋ Add Transaction';
+      setSyncStatus('error','⚠️ Save failed — '+err.message);
+    });
 }
 
-function del(id){gd().t=gd().t.filter(x=>x.id!==id);render();}
+// ── Delete transaction ────────────────────────────────────────
+function del(id){
+  const key=mk(yr,mi);
+  db.ref(fbPath(key)+'/transactions/'+id).remove()
+    .then(()=> setSyncStatus('synced','☁️ Deleted & synced'))
+    .catch(err=> setSyncStatus('error','⚠️ Delete failed — '+err.message));
+}
 
+// ── Render ────────────────────────────────────────────────────
 function render(){
-  const ts=gd().t;
+  const key=mk(yr,mi);
+  const ts=(AD[key]&&AD[key].t)||[];
+
   const inc=ts.filter(t=>t.tp==='income').reduce((s,t)=>s+t.a,0);
   const exp=ts.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.a,0);
-  const net=inc-exp,rate=inc>0?Math.round((net/inc)*100):0;
+  const net=inc-exp, rate=inc>0?Math.round((net/inc)*100):0;
 
   document.getElementById('netPay').textContent=fmt(net);
   document.getElementById('netPay').style.color=net>=0?'var(--gr)':'var(--re)';
@@ -386,11 +528,11 @@ function render(){
       <span class="sv" style="color:${net>=0?'var(--gr)':'var(--re)'};font-size:17px;">${fmt(net)}</span></div>`;
 
   const m6=Array.from({length:6},(_,i)=>{
-    let m2=mi-5+i,y2=yr;if(m2<0){m2+=12;y2--;}
+    let m2=mi-5+i,y2=yr; if(m2<0){m2+=12;y2--;}
     return{l:MN[m2].slice(0,3),k:mk(y2,m2)};
   });
   const mb=Math.max(...m6.map(m=>{
-    const d2=AD[m.k];if(!d2)return 0;
+    const d2=AD[m.k]; if(!d2) return 0;
     const i2=d2.t.filter(t=>t.tp==='income').reduce((s,t)=>s+t.a,0);
     const e2=d2.t.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.a,0);
     return Math.max(i2,e2);
@@ -422,25 +564,10 @@ function render(){
   gs.textContent=goal>0?(sav>=goal?'🎉 Goal achieved!':fmt(sav)+' of '+fmt(goal)):'Set a target above';
 }
 
-AD[mk(2026,3)]={t:[
-  {id:1,tp:'income',d:'Monthly Salary',a:120000,c:'Salary',dt:'01 Apr'},
-  {id:2,tp:'income',d:'Freelance Project',a:35000,c:'Freelance',dt:'10 Apr'},
-  {id:3,tp:'expense',d:'Rent',a:45000,c:'Housing',dt:'01 Apr'},
-  {id:4,tp:'expense',d:'Groceries',a:12000,c:'Food',dt:'05 Apr'},
-  {id:5,tp:'expense',d:'Fuel',a:8000,c:'Transport',dt:'08 Apr'},
-  {id:6,tp:'expense',d:'Electricity',a:3500,c:'Utilities',dt:'10 Apr'},
-]};
-AD[mk(2026,2)]={t:[
-  {id:10,tp:'income',d:'Salary',a:115000,c:'Salary',dt:'01 Mar'},
-  {id:11,tp:'expense',d:'Rent',a:45000,c:'Housing',dt:'01 Mar'},
-  {id:12,tp:'expense',d:'Food',a:15000,c:'Food',dt:'10 Mar'}
-]};
-AD[mk(2026,1)]={t:[
-  {id:20,tp:'income',d:'Salary',a:115000,c:'Salary',dt:'01 Feb'},
-  {id:21,tp:'expense',d:'Rent',a:45000,c:'Housing',dt:'01 Feb'}
-]};
-document.getElementById('gAmt').value='100000';
-render();
+// ── Boot ──────────────────────────────────────────────────────
+setSyncStatus('syncing','Connecting to Firebase…');
+loadGoal();
+listenMonth(mk(yr, mi));
 </script>
 </body>
 </html>
