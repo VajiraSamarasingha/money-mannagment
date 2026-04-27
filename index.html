@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>SalaryFlow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,15 +31,84 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 @keyframes spin{to{transform:rotate(360deg)}}
 .splash-msg{font-size:14px;color:var(--mu);}
 
-.page{position:relative;z-index:1;width:100%;max-width:540px;margin:0 auto;padding:env(safe-area-inset-top,16px) 16px calc(env(safe-area-inset-bottom,0px)+32px);padding-top:max(env(safe-area-inset-top),16px);}
+/* ─── AUTH SCREENS ─── */
+.auth-wrap{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;}
+.auth-wrap.hide{display:none;}
+.auth-box{width:100%;max-width:420px;background:rgba(20,24,40,0.97);border:1.5px solid var(--b2);border-radius:24px;padding:32px 28px;position:relative;}
+.auth-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.a-lbox{width:44px;height:44px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:13px;transform:rotate(7deg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.a-lname{font-size:20px;font-weight:700;letter-spacing:-0.5px;}
+.a-lname b{color:var(--ac);}
+.auth-title{font-size:22px;font-weight:700;margin-bottom:6px;}
+.auth-sub{font-size:14px;color:var(--mu);margin-bottom:26px;line-height:1.6;}
+.auth-sub a{color:var(--ac);text-decoration:none;font-weight:600;cursor:pointer;}
+.auth-sub a:hover{text-decoration:underline;}
 
-/* USER PILL */
+/* form fields */
+.af-wrap{margin-bottom:14px;}
+.af-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--mu);margin-bottom:7px;}
+.af-field{position:relative;}
+.af-input{width:100%;background:rgba(255,255,255,0.07);border:1.5px solid var(--b1);border-radius:13px;color:var(--tx);padding:15px 14px;font-family:var(--ff);font-size:16px;outline:none;-webkit-appearance:none;appearance:none;transition:border-color .2s;}
+.af-input:focus{border-color:var(--ac);}
+.af-input::placeholder{color:var(--mu);}
+.af-input.err{border-color:var(--re)!important;}
+.af-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--mu);cursor:pointer;font-size:18px;padding:4px;line-height:1;}
+.af-toggle:active{color:var(--tx);}
+
+/* password strength */
+.pw-strength{margin-top:8px;display:none;}
+.pw-strength.show{display:block;}
+.pw-bars{display:flex;gap:4px;margin-bottom:5px;}
+.pw-bar{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.08);transition:background .3s;}
+.pw-bar.weak{background:var(--re);}
+.pw-bar.fair{background:var(--am);}
+.pw-bar.good{background:var(--ac);}
+.pw-bar.strong{background:var(--gr);}
+.pw-txt{font-size:11px;font-weight:600;}
+.pw-txt.weak{color:var(--re);}
+.pw-txt.fair{color:var(--am);}
+.pw-txt.good{color:var(--ac);}
+.pw-txt.strong{color:var(--gr);}
+
+/* requirements list */
+.pw-reqs{margin-top:9px;display:none;gap:5px;flex-direction:column;}
+.pw-reqs.show{display:flex;}
+.pw-req{font-size:12px;color:var(--mu);display:flex;align-items:center;gap:7px;transition:color .2s;}
+.pw-req.met{color:var(--gr);}
+.pw-req::before{content:'○';font-size:11px;flex-shrink:0;}
+.pw-req.met::before{content:'●';}
+
+.auth-err{background:rgba(248,113,113,0.12);border:1.5px solid rgba(248,113,113,0.28);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--re);margin-bottom:14px;display:none;line-height:1.5;}
+.auth-err.show{display:block;}
+.auth-ok{background:rgba(52,211,153,0.10);border:1.5px solid rgba(52,211,153,0.25);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--gr);margin-bottom:14px;display:none;line-height:1.5;}
+.auth-ok.show{display:block;}
+
+.auth-btn{width:100%;padding:17px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:var(--ff);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.3px;touch-action:manipulation;margin-top:4px;position:relative;overflow:hidden;transition:opacity .2s,transform .1s;}
+.auth-btn:active{opacity:0.85;transform:scale(0.98);}
+.auth-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.auth-btn .btn-spin{width:20px;height:20px;border:2.5px solid rgba(255,255,255,0.35);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:none;margin:0 auto;}
+.auth-btn.loading .btn-txt{display:none;}
+.auth-btn.loading .btn-spin{display:block;}
+
+.auth-divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--mu);font-size:12px;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--b1);}
+
+.forgot-link{text-align:right;margin-top:-6px;margin-bottom:14px;}
+.forgot-link a{font-size:13px;color:var(--ac);text-decoration:none;font-weight:600;cursor:pointer;}
+.forgot-link a:hover{text-decoration:underline;}
+
+.back-link{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);cursor:pointer;margin-bottom:20px;width:fit-content;}
+.back-link:hover{color:var(--tx);}
+.back-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ─── MAIN APP ─── */
+.page{position:relative;z-index:1;width:100%;max-width:540px;margin:0 auto;padding:env(safe-area-inset-top,16px) 16px calc(env(safe-area-inset-bottom,0px)+32px);padding-top:max(env(safe-area-inset-top),16px);}
+.page.hide{display:none;}
+
 .upill{display:flex;align-items:center;gap:7px;padding:6px 11px 6px 7px;border-radius:30px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.10);font-size:12px;color:var(--mu);font-weight:600;white-space:nowrap;cursor:pointer;}
 .upill:active{background:rgba(255,255,255,0.10);}
 .uav{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
-.uid-short{font-family:var(--fm);font-size:11px;}
 
-/* SYNC STATUS */
 .sync-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;font-size:12px;font-weight:600;margin-bottom:14px;transition:all 0.3s;}
 .sync-bar.syncing{background:rgba(91,141,238,0.12);border:1.5px solid rgba(91,141,238,0.25);color:var(--ac);}
 .sync-bar.synced{background:rgba(52,211,153,0.10);border:1.5px solid rgba(52,211,153,0.22);color:var(--gr);}
@@ -51,19 +119,17 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .sync-bar.error .sync-dot{background:var(--re);}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.85);}}
 
-/* HEADER */
 .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-top:8px;gap:10px;}
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .lbox{width:40px;height:40px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:12px;transform:rotate(7deg);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
 .lname{font-size:19px;font-weight:700;letter-spacing:-0.5px;}
 .lname b{color:var(--ac);}
-.hright{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;}
+.hright{display:flex;align-items:center;gap:6px;}
 .mnav{display:flex;align-items:center;gap:5px;}
-.mbtn{min-width:40px;height:40px;padding:0 8px;border-radius:11px;border:1.5px solid var(--b2);background:var(--s2);color:var(--tx);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;font-weight:700;touch-action:manipulation;user-select:none;}
+.mbtn{min-width:40px;height:40px;padding:0 8px;border-radius:11px;border:1.5px solid var(--b2);background:var(--s2);color:var(--tx);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;font-weight:700;touch-action:manipulation;}
 .mbtn:active{background:var(--ac);border-color:var(--ac);}
 .mlbl{font-family:var(--fm);font-size:11px;background:var(--s2);border:1.5px solid var(--b2);border-radius:11px;padding:9px 10px;letter-spacing:1px;font-weight:700;white-space:nowrap;}
 
-/* CARDS */
 .card{background:var(--s1);border:1.5px solid var(--b1);border-radius:18px;padding:20px;position:relative;overflow:hidden;width:100%;margin-bottom:14px;}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.20),transparent);}
 .acard{background:linear-gradient(135deg,rgba(91,141,238,0.17),rgba(167,139,250,0.11));border-color:rgba(91,141,238,0.32);}
@@ -81,12 +147,10 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .row2 .card{margin-bottom:0;}
 .rrow{display:flex;align-items:center;gap:16px;margin-top:14px;}
 
-/* TABS */
 .tabs{display:flex;gap:5px;background:rgba(0,0,0,0.30);border:1.5px solid var(--b1);border-radius:15px;padding:5px;margin-bottom:18px;}
-.tab{flex:1;padding:14px 8px;border-radius:11px;font-size:15px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--mu);text-align:center;touch-action:manipulation;user-select:none;transition:color .15s;}
+.tab{flex:1;padding:14px 8px;border-radius:11px;font-size:15px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--mu);text-align:center;touch-action:manipulation;transition:color .15s;}
 .tab.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;}
 
-/* FORM */
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
 .fl{font-size:11px;color:var(--mu);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:700;}
 .fi,.fs{width:100%;background:rgba(255,255,255,0.07);border:1.5px solid var(--b1);border-radius:13px;color:var(--tx);padding:15px 14px;font-family:var(--ff);font-size:16px;outline:none;-webkit-appearance:none;appearance:none;}
@@ -94,15 +158,13 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .fi::placeholder{color:var(--mu);}
 .fs{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(238,242,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
 .fs option{background:#141828;color:var(--tx);}
-.badd{width:100%;padding:17px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:var(--ff);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.3px;margin-top:6px;touch-action:manipulation;user-select:none;}
+.badd{width:100%;padding:17px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:var(--ff);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.3px;margin-top:6px;touch-action:manipulation;}
 .badd:active{opacity:0.85;transform:scale(0.98);}
 .badd:disabled{opacity:0.5;cursor:not-allowed;}
 
-/* SECTION TITLE */
 .st{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 .st::after{content:'';flex:1;height:1px;background:var(--b1);}
 
-/* TRANSACTIONS */
 .ti{display:flex;align-items:center;gap:13px;padding:14px 12px;border-radius:14px;margin-bottom:10px;background:var(--s2);border:1.5px solid var(--b1);}
 .tic{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;line-height:1;}
 .tin{flex:1;min-width:0;}
@@ -112,7 +174,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .tdl{width:44px;height:44px;background:rgba(248,113,113,0.10);border:1.5px solid rgba(248,113,113,0.22);color:var(--re);cursor:pointer;font-size:16px;border-radius:11px;flex-shrink:0;font-weight:700;touch-action:manipulation;display:flex;align-items:center;justify-content:center;}
 .tdl:active{background:rgba(248,113,113,0.30);}
 
-/* BARS */
 .bw{margin-bottom:14px;}
 .blb{display:flex;justify-content:space-between;font-size:14px;margin-bottom:7px;align-items:center;}
 .blb span:first-child{color:var(--mu);display:flex;align-items:center;gap:8px;font-size:15px;}
@@ -123,7 +184,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .fgr{background:linear-gradient(90deg,#34d399,#6ee7b7);animation:growW 0.8s ease forwards;}
 .fre{background:linear-gradient(90deg,#f87171,#fca5a5);animation:growW 0.8s ease forwards;}
 
-/* CHART */
 .ca{height:96px;display:flex;align-items:flex-end;gap:6px;padding:0 2px;}
 .cbw{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;}
 .cbo{width:100%;border-radius:5px 5px 0 0;background:rgba(255,255,255,0.06);position:relative;overflow:hidden;}
@@ -134,14 +194,12 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);}
 .ld{width:9px;height:9px;border-radius:3px;}
 
-/* DONUT */
 .doa{display:flex;flex-direction:column;align-items:center;padding:8px 0;}
 .dow{position:relative;width:100px;height:100px;margin:0 auto 16px;}
 .doc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .dp{font-family:var(--fm);font-size:20px;font-weight:700;}
 .ds{font-size:11px;color:var(--mu);}
 
-/* SUMMARY */
 .sr{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--b1);}
 .sr:last-child{border:none;}
 .sk{font-size:14px;color:var(--mu);}
@@ -149,49 +207,175 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
 .tip{background:rgba(52,211,153,0.08);border:1.5px solid rgba(52,211,153,0.20);border-radius:13px;padding:13px 15px;font-size:13px;color:var(--gr);line-height:1.7;margin-top:12px;}
 .emp{text-align:center;color:var(--mu);padding:26px 0;font-size:14px;}
 
-/* MODAL */
+/* Account modal */
 .modal-bg{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.70);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
 .modal-bg.show{opacity:1;pointer-events:all;}
 .modal{background:#141828;border:1.5px solid var(--b2);border-radius:22px;padding:24px;width:100%;max-width:480px;transform:translateY(30px);transition:transform 0.25s;}
 .modal-bg.show .modal{transform:translateY(0);}
 .modal h3{font-size:18px;font-weight:700;margin-bottom:6px;}
 .modal p{font-size:13px;color:var(--mu);line-height:1.7;margin-bottom:16px;}
-.uid-box{background:rgba(255,255,255,0.06);border:1.5px solid var(--b1);border-radius:12px;padding:14px;font-family:var(--fm);font-size:12px;word-break:break-all;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
-.uid-box span{flex:1;color:var(--ac);}
-.copy-btn{padding:8px 14px;border-radius:9px;background:rgba(91,141,238,0.18);border:1.5px solid rgba(91,141,238,0.3);color:var(--ac);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.copy-btn:active{background:rgba(91,141,238,0.35);}
+.email-box{background:rgba(255,255,255,0.06);border:1.5px solid var(--b1);border-radius:12px;padding:14px;font-size:13px;word-break:break-all;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.email-box span{flex:1;color:var(--ac);}
 .warn-box{display:flex;gap:10px;padding:10px 13px;border-radius:11px;background:rgba(251,191,36,0.08);border:1.5px solid rgba(251,191,36,0.18);font-size:12px;color:var(--am);line-height:1.6;margin-bottom:16px;}
-.modal-close{width:100%;padding:15px;border-radius:14px;border:none;background:rgba(255,255,255,0.08);color:var(--tx);font-size:15px;font-weight:600;cursor:pointer;}
+.modal-row{display:flex;gap:8px;margin-bottom:0;}
+.modal-btn{flex:1;padding:14px;border-radius:13px;border:none;font-size:14px;font-weight:600;cursor:pointer;}
+.modal-close{background:rgba(255,255,255,0.08);color:var(--tx);}
 .modal-close:active{background:rgba(255,255,255,0.14);}
+.modal-logout{background:rgba(248,113,113,0.14);color:var(--re);border:1.5px solid rgba(248,113,113,0.22)!important;border-width:1.5px;border-style:solid;}
+.modal-logout:active{background:rgba(248,113,113,0.28);}
 </style>
 </head>
 <body>
 <div class="bg1"></div>
 <div class="bg2"></div>
 
-<!-- Loading splash -->
+<!-- SPLASH -->
 <div class="splash" id="splash">
   <div class="splash-logo">💰</div>
   <div class="splash-title">Salary<b>Flow</b></div>
   <div class="spin"></div>
-  <div class="splash-msg" id="splashMsg">Signing you in…</div>
+  <div class="splash-msg" id="splashMsg">Loading…</div>
 </div>
 
-<!-- Account info modal -->
-<div class="modal-bg" id="uidModal">
-  <div class="modal">
-    <h3>🔐 Your Private Account</h3>
-    <p>Your data is stored under a unique anonymous ID. Only your browser can see it — no one else can access your data.</p>
-    <div class="uid-box">
-      <span id="modalUid">—</span>
-      <button class="copy-btn" onclick="copyUid()">Copy</button>
+<!-- ─── LOGIN SCREEN ─── -->
+<div class="auth-wrap hide" id="loginScreen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="a-lbox">💰</div>
+      <div class="a-lname">Salary<b>Flow</b></div>
     </div>
-    <div class="warn-box">⚠️ Clearing browser data or using incognito will create a new account. Save your UID above if you want to restore data later.</div>
-    <button class="modal-close" onclick="closeModal()">Got it</button>
+    <div class="auth-title">Welcome back</div>
+    <div class="auth-sub">Don't have an account? <a onclick="showScreen('signup')">Sign up free</a></div>
+
+    <div class="auth-err" id="loginErr"></div>
+
+    <div class="af-wrap">
+      <div class="af-label">Email</div>
+      <div class="af-field">
+        <input class="af-input" id="loginEmail" type="email" inputmode="email" placeholder="you@example.com" autocomplete="email"/>
+      </div>
+    </div>
+    <div class="af-wrap">
+      <div class="af-label">Password</div>
+      <div class="af-field">
+        <input class="af-input" id="loginPw" type="password" placeholder="••••••••" autocomplete="current-password"/>
+        <button class="af-toggle" onclick="togglePw('loginPw',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <div class="forgot-link"><a onclick="showScreen('forgot')">Forgot password?</a></div>
+
+    <button class="auth-btn" id="loginBtn" onclick="doLogin()">
+      <span class="btn-txt">Sign In</span>
+      <div class="btn-spin"></div>
+    </button>
+    <div class="auth-divider">or</div>
+    <div style="font-size:12px;text-align:center;color:var(--mu);line-height:1.7;">
+      Your financial data is encrypted and stored securely.<br>Only you can access your account.
+    </div>
   </div>
 </div>
 
-<div class="page" id="mainPage" style="display:none;">
+<!-- ─── SIGNUP SCREEN ─── -->
+<div class="auth-wrap hide" id="signupScreen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="a-lbox">💰</div>
+      <div class="a-lname">Salary<b>Flow</b></div>
+    </div>
+    <div class="auth-title">Create your account</div>
+    <div class="auth-sub">Already have one? <a onclick="showScreen('login')">Sign in</a></div>
+
+    <div class="auth-err" id="signupErr"></div>
+
+    <div class="af-wrap">
+      <div class="af-label">Full Name</div>
+      <input class="af-input" id="signupName" type="text" placeholder="Your Name" autocomplete="name"/>
+    </div>
+    <div class="af-wrap">
+      <div class="af-label">Email</div>
+      <input class="af-input" id="signupEmail" type="email" inputmode="email" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+    <div class="af-wrap">
+      <div class="af-label">Password</div>
+      <div class="af-field">
+        <input class="af-input" id="signupPw" type="password" placeholder="Create a strong password" autocomplete="new-password" oninput="checkPwStrength(this.value)"/>
+        <button class="af-toggle" onclick="togglePw('signupPw',this)" tabindex="-1">👁</button>
+      </div>
+      <div class="pw-strength" id="pwStrength">
+        <div class="pw-bars">
+          <div class="pw-bar" id="pb1"></div>
+          <div class="pw-bar" id="pb2"></div>
+          <div class="pw-bar" id="pb3"></div>
+          <div class="pw-bar" id="pb4"></div>
+        </div>
+        <div class="pw-txt" id="pwTxt">Too short</div>
+      </div>
+      <div class="pw-reqs" id="pwReqs">
+        <div class="pw-req" id="req-len">At least 8 characters</div>
+        <div class="pw-req" id="req-upp">One uppercase letter (A–Z)</div>
+        <div class="pw-req" id="req-num">One number (0–9)</div>
+        <div class="pw-req" id="req-sym">One special character (!@#…)</div>
+      </div>
+    </div>
+    <div class="af-wrap">
+      <div class="af-label">Confirm Password</div>
+      <div class="af-field">
+        <input class="af-input" id="signupPw2" type="password" placeholder="Repeat password" autocomplete="new-password"/>
+        <button class="af-toggle" onclick="togglePw('signupPw2',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+
+    <button class="auth-btn" id="signupBtn" onclick="doSignup()">
+      <span class="btn-txt">Create Account</span>
+      <div class="btn-spin"></div>
+    </button>
+    <div style="font-size:11px;text-align:center;color:var(--mu);margin-top:14px;line-height:1.7;">
+      By signing up you agree that your data is stored privately and securely. No spam, ever.
+    </div>
+  </div>
+</div>
+
+<!-- ─── FORGOT PASSWORD SCREEN ─── -->
+<div class="auth-wrap hide" id="forgotScreen">
+  <div class="auth-box">
+    <div class="back-link" onclick="showScreen('login')">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to sign in
+    </div>
+    <div class="auth-title">Reset password</div>
+    <div class="auth-sub">Enter your email and we'll send a reset link straight away.</div>
+
+    <div class="auth-err" id="forgotErr"></div>
+    <div class="auth-ok" id="forgotOk"></div>
+
+    <div class="af-wrap">
+      <div class="af-label">Email</div>
+      <input class="af-input" id="forgotEmail" type="email" inputmode="email" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+
+    <button class="auth-btn" id="forgotBtn" onclick="doReset()">
+      <span class="btn-txt">Send Reset Link</span>
+      <div class="btn-spin"></div>
+    </button>
+  </div>
+</div>
+
+<!-- ─── ACCOUNT MODAL ─── -->
+<div class="modal-bg" id="accModal">
+  <div class="modal">
+    <h3>👤 Your Account</h3>
+    <p>You're signed in as:</p>
+    <div class="email-box"><span id="modalEmail">—</span></div>
+    <div class="warn-box">⚠️ Signing out will require your email and password to sign back in. Make sure you remember them!</div>
+    <div class="modal-row">
+      <button class="modal-btn modal-close" onclick="closeAccModal()">Close</button>
+      <button class="modal-btn modal-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MAIN APP ─── -->
+<div class="page hide" id="mainPage">
 
 <div class="hdr">
   <div class="logo">
@@ -204,9 +388,8 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
       <div class="mlbl" id="mLbl">APR 2026</div>
       <button class="mbtn" onclick="cm(1)">›</button>
     </div>
-    <div class="upill" onclick="openModal()">
+    <div class="upill" onclick="openAccModal()">
       <div class="uav" id="uavEl">?</div>
-      <span class="uid-short" id="uidShort">···</span>
     </div>
   </div>
 </div>
@@ -327,14 +510,14 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;background:var(--bg);col
   </div>
 </div>
 
-</div>
+</div><!-- end .page -->
 
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-// ── Firebase Init ───────────────────────────────────────────────────────
+// ── Firebase Init ────────────────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyDcUfFiT6MgnlQmUW7S6yUzJKC0_QgT2pY",
   authDomain: "salary-mannagement.firebaseapp.com",
@@ -347,8 +530,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.database();
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-// ── Constants ───────────────────────────────────────────────────────────
+// ── Constants ────────────────────────────────────────────────────────────
 const MN  = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 const IC  = ['Salary','Freelance','Bonus','Investment','Other Income'];
 const EC  = ['Housing','Food','Transport','Utilities','Healthcare','Education','Entertainment','Other'];
@@ -363,81 +547,230 @@ let AD={}, UID=null, activeListeners={};
 const mk  = (y,m) => `${y}-${m}`;
 const fmt = n => 'LKR '+Math.round(n).toLocaleString();
 
-function setSyncStatus(state, msg){
+function setSyncStatus(state,msg){
   const b=document.getElementById('syncBar');
   b.className='sync-bar '+state;
   document.getElementById('syncMsg').textContent=msg;
 }
 
-// Each user's data lives at: users/{UID}/...
-// This means User A can NEVER read/write User B's data
 function fbTxPath(key){ return `users/${UID}/months/${key.replace('-','_')}/transactions`; }
 function fbGoalPath(){ return `users/${UID}/goal`; }
 
-// ── Authentication ───────────────────────────────────────────────────────
-// LOCAL persistence = UID survives page refresh/close
-auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-auth.onAuthStateChanged(user => {
-  if(user){
-    UID = user.uid;
-    onUserReady();
-  } else {
-    document.getElementById('splashMsg').textContent = 'Creating your private account…';
-    auth.signInAnonymously().catch(err => {
-      document.getElementById('splashMsg').textContent = '⚠️ Auth failed: '+err.message;
-    });
-  }
-});
-
-function onUserReady(){
-  // Build short display ID (first 6 chars of UID)
-  const short = UID.slice(0,6).toUpperCase();
-  document.getElementById('uavEl').textContent     = short.slice(0,2);
-  document.getElementById('uidShort').textContent  = short;
-  document.getElementById('modalUid').textContent  = UID;
-
-  // Reveal app, hide splash
-  document.getElementById('splashMsg').textContent = 'Welcome!';
-  setTimeout(()=>{
-    document.getElementById('splash').classList.add('hide');
-    document.getElementById('mainPage').style.display = '';
-  }, 350);
-
-  loadGoal();
-  listenMonth(mk(yr, mi));
+// ── Screen routing ───────────────────────────────────────────────────────
+function showScreen(name){
+  ['loginScreen','signupScreen','forgotScreen'].forEach(id=>
+    document.getElementById(id).classList.add('hide'));
+  clearAuthErrors();
+  if(name) document.getElementById(name+'Screen').classList.remove('hide');
 }
 
-// ── Account Modal ────────────────────────────────────────────────────────
-function openModal(){ document.getElementById('uidModal').classList.add('show'); }
-function closeModal(){ document.getElementById('uidModal').classList.remove('show'); }
-function copyUid(){
-  navigator.clipboard.writeText(UID).then(()=>{
-    const b=document.querySelector('.copy-btn');
-    b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',2000);
+function clearAuthErrors(){
+  ['loginErr','signupErr','forgotErr','forgotOk'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent='';el.className=el.className.replace(' show','');}
   });
 }
 
-// ── Real-time listener (scoped to UID) ───────────────────────────────────
+function showErr(id,msg){
+  const el=document.getElementById(id);
+  el.textContent=msg;
+  el.classList.add('show');
+}
+
+function showOk(id,msg){
+  const el=document.getElementById(id);
+  el.textContent=msg;
+  el.classList.add('show');
+}
+
+function setLoading(btnId,on){
+  const b=document.getElementById(btnId);
+  b.disabled=on;
+  b.classList.toggle('loading',on);
+}
+
+// ── Auth State ───────────────────────────────────────────────────────────
+auth.onAuthStateChanged(user => {
+  if(user){
+    UID = user.uid;
+    onUserReady(user);
+  } else {
+    // Not logged in → show login screen
+    hideSplash();
+    showScreen('login');
+  }
+});
+
+function hideSplash(){
+  document.getElementById('splash').classList.add('hide');
+}
+
+function onUserReady(user){
+  const email = user.email || '';
+  const initials = email ? email.slice(0,2).toUpperCase() : '??';
+  document.getElementById('uavEl').textContent = initials;
+  document.getElementById('modalEmail').textContent = email;
+
+  showScreen(null); // hide all auth screens
+  hideSplash();
+  document.getElementById('mainPage').classList.remove('hide');
+
+  loadGoal();
+  listenMonth(mk(yr,mi));
+}
+
+// ── Login ────────────────────────────────────────────────────────────────
+function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw    = document.getElementById('loginPw').value;
+  clearAuthErrors();
+
+  if(!email||!pw){ showErr('loginErr','Please enter your email and password.'); return; }
+  if(!isValidEmail(email)){ showErr('loginErr','Please enter a valid email address.'); return; }
+
+  setLoading('loginBtn',true);
+  auth.signInWithEmailAndPassword(email,pw)
+    .then(()=>{ setLoading('loginBtn',false); })
+    .catch(err=>{ setLoading('loginBtn',false); showErr('loginErr', friendlyError(err)); });
+}
+
+// ── Signup ───────────────────────────────────────────────────────────────
+function doSignup(){
+  const name  = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const pw    = document.getElementById('signupPw').value;
+  const pw2   = document.getElementById('signupPw2').value;
+  clearAuthErrors();
+
+  if(!name){ showErr('signupErr','Please enter your name.'); return; }
+  if(!isValidEmail(email)){ showErr('signupErr','Please enter a valid email address.'); return; }
+  if(!isStrongEnough(pw)){ showErr('signupErr','Your password doesn\'t meet the requirements below.'); return; }
+  if(pw !== pw2){ showErr('signupErr','Passwords don\'t match.'); return; }
+
+  setLoading('signupBtn',true);
+  auth.createUserWithEmailAndPassword(email,pw)
+    .then(cred => {
+      // Save display name to Firebase profile
+      return cred.user.updateProfile({ displayName: name });
+    })
+    .then(()=>{ setLoading('signupBtn',false); })
+    .catch(err=>{ setLoading('signupBtn',false); showErr('signupErr', friendlyError(err)); });
+}
+
+// ── Password Reset ───────────────────────────────────────────────────────
+function doReset(){
+  const email = document.getElementById('forgotEmail').value.trim();
+  clearAuthErrors();
+
+  if(!isValidEmail(email)){ showErr('forgotErr','Please enter a valid email address.'); return; }
+
+  setLoading('forgotBtn',true);
+  auth.sendPasswordResetEmail(email)
+    .then(()=>{
+      setLoading('forgotBtn',false);
+      showOk('forgotOk','✅ Reset link sent! Check your inbox (and spam folder).');
+      document.getElementById('forgotEmail').value='';
+    })
+    .catch(err=>{ setLoading('forgotBtn',false); showErr('forgotErr', friendlyError(err)); });
+}
+
+// ── Logout ───────────────────────────────────────────────────────────────
+function doLogout(){
+  closeAccModal();
+  // Clear all listeners and data first
+  Object.keys(activeListeners).forEach(k=>{
+    db.ref(fbTxPath(k)).off();
+  });
+  activeListeners={};
+  AD={};
+  UID=null;
+  document.getElementById('mainPage').classList.add('hide');
+  auth.signOut();
+}
+
+// ── Account Modal ────────────────────────────────────────────────────────
+function openAccModal(){ document.getElementById('accModal').classList.add('show'); }
+function closeAccModal(){ document.getElementById('accModal').classList.remove('show'); }
+
+// ── Toggle PW visibility ─────────────────────────────────────────────────
+function togglePw(id,btn){
+  const el=document.getElementById(id);
+  const show=el.type==='password';
+  el.type=show?'text':'password';
+  btn.textContent=show?'🙈':'👁';
+}
+
+// ── Password strength checker ────────────────────────────────────────────
+function checkPwStrength(pw){
+  const str=document.getElementById('pwStrength');
+  const req=document.getElementById('pwReqs');
+  str.classList.toggle('show',pw.length>0);
+  req.classList.toggle('show',pw.length>0);
+
+  const has={len:pw.length>=8,upp:/[A-Z]/.test(pw),num:/[0-9]/.test(pw),sym:/[^A-Za-z0-9]/.test(pw)};
+  document.getElementById('req-len').classList.toggle('met',has.len);
+  document.getElementById('req-upp').classList.toggle('met',has.upp);
+  document.getElementById('req-num').classList.toggle('met',has.num);
+  document.getElementById('req-sym').classList.toggle('met',has.sym);
+
+  const score=[has.len,has.upp,has.num,has.sym].filter(Boolean).length;
+  const bars=[document.getElementById('pb1'),document.getElementById('pb2'),
+              document.getElementById('pb3'),document.getElementById('pb4')];
+  const lvl=['','weak','fair','good','strong'];
+  const lbl=['','Weak','Fair','Good','Strong 🔒'];
+  bars.forEach((b,i)=>{ b.className='pw-bar'+(i<score?' '+lvl[score]:''); });
+  const txt=document.getElementById('pwTxt');
+  txt.textContent=pw.length===0?'':lbl[score]||'Too short';
+  txt.className='pw-txt '+(lvl[score]||'');
+}
+
+function isStrongEnough(pw){
+  return pw.length>=8&&/[A-Z]/.test(pw)&&/[0-9]/.test(pw)&&/[^A-Za-z0-9]/.test(pw);
+}
+
+function isValidEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+function friendlyError(err){
+  switch(err.code){
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential': return 'Incorrect email or password. Please try again.';
+    case 'auth/email-already-in-use': return 'An account with this email already exists. Try signing in instead.';
+    case 'auth/weak-password': return 'Password is too weak. Use at least 8 characters with uppercase letters and numbers.';
+    case 'auth/invalid-email': return 'Please enter a valid email address.';
+    case 'auth/too-many-requests': return 'Too many attempts. Please wait a moment and try again.';
+    case 'auth/network-request-failed': return 'Network error. Check your connection and try again.';
+    default: return err.message || 'Something went wrong. Please try again.';
+  }
+}
+
+// ── Enter key support on auth forms ─────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter') return;
+  const screens={loginScreen:doLogin,signupScreen:doSignup,forgotScreen:doReset};
+  for(const [id,fn] of Object.entries(screens)){
+    if(!document.getElementById(id).classList.contains('hide')){ fn(); break; }
+  }
+});
+
+// ── Real-time listener ───────────────────────────────────────────────────
 function listenMonth(key){
   if(activeListeners[key]) return;
-  activeListeners[key] = true;
-
-  db.ref(fbTxPath(key)).on('value', snap => {
-    const raw = snap.val();
-    AD[key] = {t: raw ? Object.values(raw) : []};
+  activeListeners[key]=true;
+  db.ref(fbTxPath(key)).on('value',snap=>{
+    const raw=snap.val();
+    AD[key]={t:raw?Object.values(raw):[]};
     render();
-    setSyncStatus('synced','☁️ Synced · Your private data');
-  }, err => setSyncStatus('error','⚠️ '+err.message));
+    setSyncStatus('synced','☁️ Synced · Private data');
+  }, err=>setSyncStatus('error','⚠️ '+err.message));
 
-  // Load surrounding 5 months for trend chart (one-time)
   for(let i=1;i<=5;i++){
-    let hm=mi-i, hy=yr;
+    let hm=mi-i,hy=yr;
     if(hm<0){hm+=12;hy--;}
     const hk=mk(hy,hm);
     if(!AD[hk]){
       db.ref(fbTxPath(hk)).once('value').then(s=>{
-        AD[hk]={t: s.val() ? Object.values(s.val()) : []};
+        AD[hk]={t:s.val()?Object.values(s.val()):[]};
         render();
       });
     }
@@ -464,13 +797,13 @@ function setTab(t,el){
   tab=t;
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
-  const s=document.getElementById('cat'); s.innerHTML='';
+  const s=document.getElementById('cat');s.innerHTML='';
   (t==='income'?IC:EC).forEach(c=>{const o=document.createElement('option');o.textContent=c;s.appendChild(o);});
 }
 
 // ── Month nav ─────────────────────────────────────────────────────────────
 function cm(d){
-  mi+=d; if(mi>11){mi=0;yr++;} if(mi<0){mi=11;yr--;}
+  mi+=d;if(mi>11){mi=0;yr++;}if(mi<0){mi=11;yr--;}
   document.getElementById('mLbl').textContent=MN[mi]+' '+yr;
   const key=mk(yr,mi);
   if(!activeListeners[key]) listenMonth(key); else render();
@@ -484,18 +817,17 @@ function addTx(){
   const a=parseFloat(document.getElementById('amt').value);
   const c=document.getElementById('cat').value;
   if(!d||!a||a<=0){
-    dEl.style.borderColor='var(--re)'; dEl.placeholder='Enter a description!';
-    setTimeout(()=>{dEl.style.borderColor=''; dEl.placeholder='e.g. Salary';},1200);
+    dEl.style.borderColor='var(--re)';dEl.placeholder='Enter a description!';
+    setTimeout(()=>{dEl.style.borderColor='';dEl.placeholder='e.g. Salary';},1200);
     return;
   }
   const btn=document.getElementById('addBtn');
-  btn.disabled=true; btn.textContent='Saving…';
-  const key=mk(yr,mi), id=Date.now();
+  btn.disabled=true;btn.textContent='Saving…';
+  const key=mk(yr,mi),id=Date.now();
   const tx={id,tp:tab,d,a,c,dt:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'})};
-  // Written to users/{UID}/... — completely isolated
   db.ref(fbTxPath(key)+'/'+id).set(tx)
-    .then(()=>{ dEl.value=''; document.getElementById('amt').value=''; btn.disabled=false; btn.textContent='＋ Add Transaction'; })
-    .catch(err=>{ btn.disabled=false; btn.textContent='＋ Add Transaction'; setSyncStatus('error','⚠️ '+err.message); });
+    .then(()=>{dEl.value='';document.getElementById('amt').value='';btn.disabled=false;btn.textContent='＋ Add Transaction';})
+    .catch(err=>{btn.disabled=false;btn.textContent='＋ Add Transaction';setSyncStatus('error','⚠️ '+err.message);});
 }
 
 // ── Delete ────────────────────────────────────────────────────────────────
@@ -506,10 +838,10 @@ function del(id){
 
 // ── Render ────────────────────────────────────────────────────────────────
 function render(){
-  const key=mk(yr,mi), ts=(AD[key]&&AD[key].t)||[];
+  const key=mk(yr,mi),ts=(AD[key]&&AD[key].t)||[];
   const inc=ts.filter(t=>t.tp==='income').reduce((s,t)=>s+t.a,0);
   const exp=ts.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.a,0);
-  const net=inc-exp, rate=inc>0?Math.round((net/inc)*100):0;
+  const net=inc-exp,rate=inc>0?Math.round((net/inc)*100):0;
 
   document.getElementById('netPay').textContent=fmt(net);
   document.getElementById('netPay').style.color=net>=0?'var(--gr)':'var(--re)';
@@ -530,38 +862,34 @@ function render(){
       <div class="tic" style="background:${t.tp==='income'?'rgba(52,211,153,0.14)':'rgba(248,113,113,0.14)'}">
         <span style="font-size:22px;line-height:1;">${ICO[t.c]||'💰'}</span>
       </div>
-      <div class="tin">
-        <div class="tnm">${t.d}</div>
-        <div class="tmt">${t.c} · ${t.dt}</div>
-      </div>
+      <div class="tin"><div class="tnm">${t.d}</div><div class="tmt">${t.c} · ${t.dt}</div></div>
       <div class="tam" style="color:${t.tp==='income'?'var(--gr)':'var(--re)'}">
-        ${t.tp==='income'?'+':'-'}${Math.round(t.a).toLocaleString()}
-      </div>
+        ${t.tp==='income'?'+':'-'}${Math.round(t.a).toLocaleString()}</div>
       <button class="tdl" onclick="del(${t.id})">✕</button>
     </div>`).join('')
     :'<div class="emp">No transactions — add one above</div>';
 
   const cm2={};
   ts.forEach(t=>{if(!cm2[t.c])cm2[t.c]={i:0,e:0};cm2[t.c][t.tp==='income'?'i':'e']+=t.a;});
-  const ck=Object.keys(cm2), mx=Math.max(...ck.map(c=>Math.max(cm2[c].i||0,cm2[c].e||0)),1);
-  const bdEl=document.getElementById('bdwn'), tipEl=document.getElementById('tipEl');
-  bdEl.innerHTML=ck.length?ck.map(c=>{
+  const ck=Object.keys(cm2),mx=Math.max(...ck.map(c=>Math.max(cm2[c].i||0,cm2[c].e||0)),1);
+  document.getElementById('bdwn').innerHTML=ck.length?ck.map(c=>{
     const v=Math.max(cm2[c].i||0,cm2[c].e||0),isI=cm2[c].i>0,p=Math.round((v/mx)*100);
     return`<div class="bw"><div class="blb"><span><span style="font-size:18px;line-height:1;">${ICO[c]||'📦'}</span> ${c}</span>
       <span class="bval" style="color:${isI?'var(--gr)':'var(--re)'}">${isI?'+':'-'}${Math.round(v).toLocaleString()}</span>
     </div><div class="bt"><div class="bf ${isI?'fgr':'fre'}" style="width:${p}%"></div></div></div>`;
   }).join(''):'<div class="emp">Add transactions to see breakdown</div>';
 
+  const tipEl=document.getElementById('tipEl');
   if(exp>0&&inc>0){
     const rr=Math.round((exp/inc)*100);
     tipEl.textContent=rr>80?'⚠️ Spending is '+rr+'% of income — review major expenses!':rr>60?'🔍 Expenses at '+rr+'% of income — look for savings.':'✅ Great! Expenses are only '+rr+'% of income.';
     tipEl.style.display='block';
   }else tipEl.style.display='none';
 
-  const tx=inc*0.10,ep=inc*0.02;
+  const tx2=inc*0.10,ep=inc*0.02;
   document.getElementById('sumEl').innerHTML=`
     <div class="sr"><span class="sk">💰 Gross Income</span><span class="sv" style="color:var(--am)">${fmt(inc)}</span></div>
-    <div class="sr"><span class="sk">🏛 Est. Tax (10%)</span><span class="sv" style="color:var(--re)">−${fmt(tx)}</span></div>
+    <div class="sr"><span class="sk">🏛 Est. Tax (10%)</span><span class="sv" style="color:var(--re)">−${fmt(tx2)}</span></div>
     <div class="sr"><span class="sk">🏦 EPF/ETF (2%)</span><span class="sv" style="color:var(--re)">−${fmt(ep)}</span></div>
     <div class="sr"><span class="sk">🛒 Total Expenses</span><span class="sv" style="color:var(--re)">−${fmt(exp)}</span></div>
     <div class="sr"><span class="sk" style="color:var(--tx);font-weight:700;font-size:15px;">✨ Net Available</span>
@@ -580,7 +908,7 @@ function render(){
     </div><div class="clb" style="color:${cur?'var(--tx)':'var(--mu)'};font-weight:${cur?700:400};">${m.l}</div></div>`;
   }).join('');
 
-  const goal=parseFloat(document.getElementById('gAmt').value)||0, sav=Math.max(net,0);
+  const goal=parseFloat(document.getElementById('gAmt').value)||0,sav=Math.max(net,0);
   const gp=goal>0?Math.min(Math.round((sav/goal)*100),100):0;
   document.getElementById('gPct').textContent=gp+'%';
   document.getElementById('donut').style.strokeDashoffset=251-(251*gp/100);
