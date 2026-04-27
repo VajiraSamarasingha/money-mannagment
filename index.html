@@ -6,119 +6,87 @@
   --bg:#0b0f1e;--s1:rgba(255,255,255,0.06);--s2:rgba(255,255,255,0.10);
   --b1:rgba(255,255,255,0.11);--b2:rgba(255,255,255,0.20);
   --ac:#5b8dee;--ac2:#a78bfa;--gr:#34d399;--re:#f87171;--am:#fbbf24;
-  --tx:#eef2ff;--mu:rgba(238,242,255,0.50);
+  --tx:#eef2ff;--mu:rgba(238,242,255,0.55);
   --ff:'Outfit',sans-serif;--fm:'Space Mono',monospace;
-  --r:14px;--r2:10px;
+  --r:16px;--r2:12px;
 }
-html{width:100%;}
-body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overflow-x:hidden;}
-.bg1{position:fixed;inset:0;z-index:0;
-  background:radial-gradient(ellipse 100% 55% at 10% 0%,rgba(91,141,238,0.22) 0%,transparent 60%),
-  radial-gradient(ellipse 80% 45% at 95% 100%,rgba(167,139,250,0.16) 0%,transparent 60%),var(--bg);}
-.bg2{position:fixed;inset:0;z-index:0;
-  background-image:linear-gradient(rgba(91,141,238,0.045) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(91,141,238,0.045) 1px,transparent 1px);
-  background-size:40px 40px;}
-.page{position:relative;z-index:1;width:100%;padding:16px 14px 30px;}
+body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overflow-x:hidden;min-height:100vh;}
+.bg1{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 100% 55% at 10% 0%,rgba(91,141,238,0.22) 0%,transparent 60%),radial-gradient(ellipse 80% 45% at 95% 100%,rgba(167,139,250,0.16) 0%,transparent 60%),var(--bg);}
+.bg2{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(91,141,238,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(91,141,238,0.045) 1px,transparent 1px);background-size:44px 44px;}
+.page{position:relative;z-index:1;width:100%;padding:20px 16px 40px;max-width:480px;margin:0 auto;}
 
 /* HEADER */
-.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
-.logo{display:flex;align-items:center;gap:10px;}
-.lbox{width:38px;height:38px;background:linear-gradient(135deg,var(--ac),var(--ac2));
-  border-radius:10px;transform:rotate(8deg);display:flex;align-items:center;
-  justify-content:center;font-size:20px;box-shadow:0 4px 16px rgba(91,141,238,0.4);}
-.lname{font-size:20px;font-weight:700;letter-spacing:-0.5px;}
-.lname b{color:var(--ac);font-weight:700;}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+.logo{display:flex;align-items:center;gap:12px;}
+.lbox{width:46px;height:46px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:13px;transform:rotate(8deg);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 18px rgba(91,141,238,0.45);}
+.lname{font-size:22px;font-weight:700;letter-spacing:-0.5px;}
+.lname b{color:var(--ac);}
 .mnav{display:flex;align-items:center;gap:8px;}
-.mbtn{width:36px;height:36px;border-radius:9px;border:1.5px solid var(--b2);
-  background:var(--s2);color:var(--tx);cursor:pointer;font-size:18px;
-  display:flex;align-items:center;justify-content:center;font-weight:700;}
+.mbtn{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--b2);background:var(--s2);color:var(--tx);cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;font-weight:700;touch-action:manipulation;}
 .mbtn:active{background:var(--ac);}
-.mlbl{font-family:var(--fm);font-size:12px;background:var(--s2);
-  border:1.5px solid var(--b2);border-radius:9px;padding:8px 14px;letter-spacing:1.5px;font-weight:700;}
+.mlbl{font-family:var(--fm);font-size:13px;background:var(--s2);border:1.5px solid var(--b2);border-radius:12px;padding:10px 14px;letter-spacing:1.5px;font-weight:700;}
 
 /* CARDS */
-.card{background:var(--s1);border:1.5px solid var(--b1);border-radius:var(--r);
-  padding:16px;position:relative;overflow:hidden;width:100%;margin-bottom:12px;}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);}
-.acard{background:linear-gradient(135deg,rgba(91,141,238,0.18),rgba(167,139,250,0.12));
-  border-color:rgba(91,141,238,0.35);}
+.card{background:var(--s1);border:1.5px solid var(--b1);border-radius:var(--r);padding:20px;position:relative;overflow:hidden;width:100%;margin-bottom:14px;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);}
+.acard{background:linear-gradient(135deg,rgba(91,141,238,0.18),rgba(167,139,250,0.12));border-color:rgba(91,141,238,0.35);}
 
-.cl{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--mu);margin-bottom:6px;}
-.cv{font-family:var(--fm);font-weight:700;letter-spacing:-0.5px;}
-.cv.xl{font-size:32px;}
-.cv.lg{font-size:24px;}
+.cl{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;}
+.cv{font-family:var(--fm);font-weight:700;}
+.cv.xl{font-size:36px;}
+.cv.lg{font-size:28px;}
 .cv.gr{color:var(--gr);}
 .cv.re{color:var(--re);}
 .cv.am{color:var(--am);}
-.csub{font-size:12px;color:var(--mu);margin-top:4px;}
+.csub{font-size:13px;color:var(--mu);margin-top:5px;}
 
-.bdg{display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;
-  font-size:11px;font-weight:600;letter-spacing:0.3px;}
+.bdg{display:inline-flex;align-items:center;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.3px;}
 .bgr{background:rgba(52,211,153,0.18);color:var(--gr);}
 .bre{background:rgba(248,113,113,0.18);color:var(--re);}
 .bam{background:rgba(251,191,36,0.18);color:var(--am);}
 .bbl{background:rgba(91,141,238,0.18);color:var(--ac);}
 
-/* 2 col hero */
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .row2 .card{margin-bottom:0;}
 
-/* RING ROW */
-.rrow{display:flex;align-items:center;gap:14px;margin-top:10px;}
+.rrow{display:flex;align-items:center;gap:16px;margin-top:12px;}
 
 /* TABS */
-.tabs{display:flex;gap:4px;background:rgba(0,0,0,0.25);border:1.5px solid var(--b1);
-  border-radius:11px;padding:4px;margin-bottom:14px;}
-.tab{flex:1;padding:10px 6px;border-radius:8px;font-size:14px;font-weight:600;
-  cursor:pointer;border:none;background:transparent;color:var(--mu);transition:all .2s;text-align:center;}
-.tab.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;
-  box-shadow:0 3px 12px rgba(91,141,238,0.45);}
+.tabs{display:flex;gap:5px;background:rgba(0,0,0,0.28);border:1.5px solid var(--b1);border-radius:14px;padding:5px;margin-bottom:18px;}
+.tab{flex:1;padding:13px 8px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--mu);transition:all .2s;text-align:center;touch-action:manipulation;}
+.tab.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 3px 14px rgba(91,141,238,0.45);}
 
 /* FORM */
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-.fl{font-size:11px;color:var(--mu);letter-spacing:.8px;text-transform:uppercase;
-  margin-bottom:5px;font-weight:500;}
-.fi,.fs{width:100%;background:rgba(255,255,255,0.07);border:1.5px solid var(--b1);
-  border-radius:10px;color:var(--tx);padding:12px 13px;font-family:var(--ff);
-  font-size:15px;outline:none;transition:border-color .2s;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.fl{font-size:12px;color:var(--mu);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;font-weight:600;}
+.fi,.fs{width:100%;background:rgba(255,255,255,0.08);border:1.5px solid var(--b1);border-radius:12px;color:var(--tx);padding:14px 15px;font-family:var(--ff);font-size:16px;outline:none;transition:border-color .2s;-webkit-appearance:none;}
 .fi:focus,.fs:focus{border-color:var(--ac);}
 .fi::placeholder{color:var(--mu);}
 .fs option{background:#141828;}
-.badd{width:100%;padding:14px;border-radius:11px;border:none;
-  background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;
-  font-family:var(--ff);font-size:15px;font-weight:700;cursor:pointer;
-  box-shadow:0 5px 18px rgba(91,141,238,0.4);letter-spacing:0.3px;margin-top:4px;}
-.badd:active{transform:scale(.98);}
+.badd{width:100%;padding:16px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-family:var(--ff);font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 5px 20px rgba(91,141,238,0.4);letter-spacing:0.3px;margin-top:6px;touch-action:manipulation;}
+.badd:active{transform:scale(.97);}
 
 /* SECTION TITLE */
-.st{font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--mu);
-  text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.st{font-size:12px;font-weight:700;letter-spacing:1.2px;color:var(--mu);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 .st::after{content:'';flex:1;height:1px;background:var(--b1);}
 
 /* TRANSACTIONS */
-.ti{display:flex;align-items:center;gap:12px;padding:12px 12px;border-radius:11px;
-  margin-bottom:8px;background:var(--s2);border:1.5px solid var(--b1);cursor:pointer;}
+.ti{display:flex;align-items:center;gap:14px;padding:14px;border-radius:13px;margin-bottom:10px;background:var(--s2);border:1.5px solid var(--b1);cursor:pointer;}
 .ti:active{background:rgba(255,255,255,0.13);}
-.tic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;
-  justify-content:center;font-size:20px;flex-shrink:0;}
+.tic{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
 .tin{flex:1;min-width:0;}
-.tnm{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.tmt{font-size:12px;color:var(--mu);margin-top:2px;}
-.tam{font-family:var(--fm);font-size:14px;font-weight:700;flex-shrink:0;}
-.tdl{background:rgba(248,113,113,0.12);border:1.5px solid rgba(248,113,113,0.25);
-  color:var(--re);cursor:pointer;font-size:14px;padding:6px 9px;
-  border-radius:8px;flex-shrink:0;font-weight:700;}
+.tnm{font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tmt{font-size:13px;color:var(--mu);margin-top:3px;}
+.tam{font-family:var(--fm);font-size:15px;font-weight:700;flex-shrink:0;}
+.tdl{background:rgba(248,113,113,0.12);border:1.5px solid rgba(248,113,113,0.25);color:var(--re);cursor:pointer;font-size:18px;padding:9px 13px;border-radius:10px;flex-shrink:0;font-weight:700;touch-action:manipulation;line-height:1;}
 .tdl:active{background:rgba(248,113,113,0.3);}
 
 /* BARS */
-.bw{margin-bottom:11px;}
-.blb{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;align-items:center;}
-.blb span:first-child{color:var(--mu);display:flex;align-items:center;gap:5px;}
-.blb span:last-child{font-family:var(--fm);font-weight:700;font-size:12px;}
-.bt{height:7px;border-radius:4px;background:rgba(255,255,255,0.08);overflow:hidden;}
+.bw{margin-bottom:14px;}
+.blb{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;align-items:center;}
+.blb span:first-child{color:var(--mu);display:flex;align-items:center;gap:7px;}
+.blb span:last-child{font-family:var(--fm);font-weight:700;font-size:13px;}
+.bt{height:8px;border-radius:4px;background:rgba(255,255,255,0.08);overflow:hidden;}
 .bf{height:100%;border-radius:4px;animation:fi2 1s ease forwards;}
 @keyframes fi2{from{width:0!important;}}
 .fgr{background:linear-gradient(90deg,#34d399,#6ee7b7);}
@@ -127,36 +95,33 @@ body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overf
 .fam{background:linear-gradient(90deg,#fbbf24,#fde68a);}
 
 /* CHART */
-.ca{height:90px;display:flex;align-items:flex-end;gap:5px;padding:0 2px;}
-.cbw{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.cbo{width:100%;border-radius:4px 4px 0 0;background:rgba(255,255,255,0.06);
-  position:relative;overflow:hidden;}
+.ca{height:100px;display:flex;align-items:flex-end;gap:6px;padding:0 2px;}
+.cbw{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.cbo{width:100%;border-radius:4px 4px 0 0;background:rgba(255,255,255,0.06);position:relative;overflow:hidden;}
 .cbi{width:100%;border-radius:4px 4px 0 0;position:absolute;bottom:0;animation:ru 1s ease forwards;}
 @keyframes ru{from{height:0!important;}}
-.clb{font-size:10px;color:var(--mu);}
-.leg{display:flex;gap:12px;justify-content:center;margin-top:8px;}
-.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--mu);}
-.ld{width:8px;height:8px;border-radius:2px;}
+.clb{font-size:11px;color:var(--mu);}
+.leg{display:flex;gap:14px;justify-content:center;margin-top:10px;}
+.li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu);}
+.ld{width:9px;height:9px;border-radius:3px;}
 
 /* DONUT */
-.doa{display:flex;flex-direction:column;align-items:center;padding:6px 0;}
-.dow{position:relative;width:90px;height:90px;margin:0 auto 12px;}
-.doc{position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;}
-.dp{font-family:var(--fm);font-size:18px;font-weight:700;}
-.ds{font-size:10px;color:var(--mu);}
+.doa{display:flex;flex-direction:column;align-items:center;padding:8px 0;}
+.dow{position:relative;width:100px;height:100px;margin:0 auto 16px;}
+.doc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.dp{font-family:var(--fm);font-size:20px;font-weight:700;}
+.ds{font-size:11px;color:var(--mu);}
 
 /* SUMMARY */
-.sr{display:flex;justify-content:space-between;align-items:center;
-  padding:9px 0;border-bottom:1px solid var(--b1);}
+.sr{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--b1);}
 .sr:last-child{border:none;}
-.sk{font-size:13px;color:var(--mu);}
-.sv{font-family:var(--fm);font-size:13px;font-weight:700;}
+.sk{font-size:14px;color:var(--mu);}
+.sv{font-family:var(--fm);font-size:14px;font-weight:700;}
 
-.tip{background:rgba(52,211,153,0.09);border:1.5px solid rgba(52,211,153,0.22);
-  border-radius:10px;padding:10px 12px;font-size:12px;color:var(--gr);
-  line-height:1.6;margin-top:10px;}
-.emp{text-align:center;color:var(--mu);padding:20px 0;font-size:13px;}
+.tip{background:rgba(52,211,153,0.09);border:1.5px solid rgba(52,211,153,0.22);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--gr);line-height:1.7;margin-top:12px;}
+.emp{text-align:center;color:var(--mu);padding:24px 0;font-size:14px;}
+
+.cat-icon{font-size:20px;line-height:1;}
 </style>
 
 <div class="bg1"></div>
@@ -165,7 +130,7 @@ body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overf
 
 <div class="hdr">
   <div class="logo">
-    <div class="lbox">💰</div>
+    <div class="lbox"><span style="font-size:24px;">💰</span></div>
     <div class="lname">Salary<b>Flow</b></div>
   </div>
   <div class="mnav">
@@ -179,17 +144,17 @@ body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overf
   <div class="cl">Net Take-Home</div>
   <div class="cv xl gr" id="netPay">LKR 0</div>
   <div class="rrow">
-    <svg style="transform:rotate(-90deg);flex-shrink:0;" width="50" height="50" viewBox="0 0 50 50">
-      <circle cx="25" cy="25" r="20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/>
-      <circle id="ring" cx="25" cy="25" r="20" fill="none" stroke="url(#rg)" stroke-width="5"
-        stroke-linecap="round" stroke-dasharray="126" stroke-dashoffset="126"/>
+    <svg style="transform:rotate(-90deg);flex-shrink:0;" width="58" height="58" viewBox="0 0 58 58">
+      <circle cx="29" cy="29" r="23" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6"/>
+      <circle id="ring" cx="29" cy="29" r="23" fill="none" stroke="url(#rg)" stroke-width="6"
+        stroke-linecap="round" stroke-dasharray="144" stroke-dashoffset="144"/>
       <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%" stop-color="#5b8dee"/><stop offset="100%" stop-color="#a78bfa"/>
       </linearGradient></defs>
     </svg>
     <div>
-      <div style="font-size:12px;color:var(--mu);margin-bottom:2px;">Savings Rate</div>
-      <div style="font-family:var(--fm);font-size:22px;font-weight:700;" id="sRate">0%</div>
+      <div style="font-size:13px;color:var(--mu);margin-bottom:3px;">Savings Rate</div>
+      <div style="font-family:var(--fm);font-size:26px;font-weight:700;" id="sRate">0%</div>
     </div>
     <span class="bdg bbl" id="sBdg" style="margin-left:auto;">Add data →</span>
   </div>
@@ -197,12 +162,12 @@ body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overf
 
 <div class="row2">
   <div class="card">
-    <div class="cl">Total Income</div>
+    <div class="cl">Income</div>
     <div class="cv lg am" id="totInc">LKR 0</div>
     <div class="csub" id="incN">0 sources</div>
   </div>
   <div class="card">
-    <div class="cl">Total Expenses</div>
+    <div class="cl">Expenses</div>
     <div class="cv lg re" id="totExp">LKR 0</div>
     <div class="csub" id="expN">0 items</div>
   </div>
@@ -221,10 +186,10 @@ body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overf
     </div>
     <div>
       <div class="fl">Amount (LKR)</div>
-      <input class="fi" id="amt" type="number" placeholder="0"/>
+      <input class="fi" id="amt" type="number" inputmode="numeric" placeholder="0"/>
     </div>
   </div>
-  <div style="margin-bottom:4px;">
+  <div style="margin-bottom:6px;">
     <div class="fl">Category</div>
     <select class="fs" id="cat" style="width:100%;">
       <option>Salary</option><option>Freelance</option><option>Bonus</option>
@@ -263,11 +228,11 @@ body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overf
     <div class="st">Savings Goal</div>
     <div class="doa">
       <div class="dow">
-        <svg width="90" height="90" viewBox="0 0 90 90">
-          <circle cx="45" cy="45" r="36" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="8"/>
-          <circle id="donut" cx="45" cy="45" r="36" fill="none" stroke="url(#dg)" stroke-width="8"
-            stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="226"
-            style="transform:rotate(-90deg);transform-origin:45px 45px;transition:stroke-dashoffset 1s;"/>
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="9"/>
+          <circle id="donut" cx="50" cy="50" r="40" fill="none" stroke="url(#dg)" stroke-width="9"
+            stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"
+            style="transform:rotate(-90deg);transform-origin:50px 50px;transition:stroke-dashoffset 1s;"/>
           <defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#6ee7b7"/>
           </linearGradient></defs>
@@ -279,9 +244,9 @@ body{font-family:var(--ff);background:var(--bg);color:var(--tx);width:100%;overf
       </div>
       <div style="width:100%;">
         <div class="fl">Target LKR</div>
-        <input class="fi" id="gAmt" type="number" placeholder="100000" oninput="render()" style="width:100%;"/>
+        <input class="fi" id="gAmt" type="number" inputmode="numeric" placeholder="100000" oninput="render()" style="width:100%;"/>
       </div>
-      <div style="font-size:11px;color:var(--mu);text-align:center;margin-top:8px;" id="gSt">Set a target above</div>
+      <div style="font-size:12px;color:var(--mu);text-align:center;margin-top:10px;" id="gSt">Set a target above</div>
     </div>
   </div>
 </div>
@@ -349,7 +314,7 @@ function render(){
   document.getElementById('expN').textContent=ts.filter(t=>t.tp==='expense').length+' items';
 
   const r=document.getElementById('ring');
-  r.style.strokeDashoffset=126-(126*Math.min(Math.max(rate,0),100)/100);
+  r.style.strokeDashoffset=144-(144*Math.min(Math.max(rate,0),100)/100);
   const sb=document.getElementById('sBdg');
   if(rate>=30){sb.textContent='Excellent savings!';sb.className='bdg bgr';}
   else if(rate>=15){sb.textContent='On track ✓';sb.className='bdg bam';}
@@ -360,7 +325,7 @@ function render(){
   tl.innerHTML=ts.length?ts.slice().reverse().map(t=>`
     <div class="ti">
       <div class="tic" style="background:${t.tp==='income'?'rgba(52,211,153,0.15)':'rgba(248,113,113,0.15)'}">
-        <span style="font-size:20px;">${ICO[t.c]||'💰'}</span>
+        <span class="cat-icon">${ICO[t.c]||'💰'}</span>
       </div>
       <div class="tin">
         <div class="tnm">${t.d}</div>
@@ -382,7 +347,7 @@ function render(){
     const v=Math.max(cm2[c].i||0,cm2[c].e||0),isI=cm2[c].i>0,p=Math.round((v/mx)*100);
     return`<div class="bw">
       <div class="blb">
-        <span><span style="font-size:15px;">${ICO[c]||'📦'}</span> ${c}</span>
+        <span><span class="cat-icon">${ICO[c]||'📦'}</span> ${c}</span>
         <span style="color:${isI?'var(--gr)':'var(--re)'}">${isI?'+':'-'}${Math.round(v).toLocaleString()}</span>
       </div>
       <div class="bt"><div class="bf ${isI?'fgr':'fre'}" style="width:${p}%"></div></div>
@@ -403,8 +368,8 @@ function render(){
     <div class="sr"><span class="sk">🏛 Est. Tax (10%)</span><span class="sv" style="color:var(--re)">-${fmt(tx)}</span></div>
     <div class="sr"><span class="sk">🏦 EPF/ETF (2%)</span><span class="sv" style="color:var(--re)">-${fmt(ep)}</span></div>
     <div class="sr"><span class="sk">🛒 Total Expenses</span><span class="sv" style="color:var(--re)">-${fmt(exp)}</span></div>
-    <div class="sr"><span class="sk" style="color:var(--tx);font-weight:700;font-size:14px;">✨ Net Available</span>
-      <span class="sv" style="color:${net>=0?'var(--gr)':'var(--re)'};font-size:16px;">${fmt(net)}</span></div>`;
+    <div class="sr"><span class="sk" style="color:var(--tx);font-weight:700;font-size:15px;">✨ Net Available</span>
+      <span class="sv" style="color:${net>=0?'var(--gr)':'var(--re)'};font-size:17px;">${fmt(net)}</span></div>`;
 
   const m6=Array.from({length:6},(_,i)=>{
     let mi2=mi-5+i,yi=yr;if(mi2<0){mi2+=12;yi--;}
@@ -421,13 +386,13 @@ function render(){
     const d2=AD[m.k],cur=m.k===mk(yr,mi);
     const i2=d2?d2.t.filter(t=>t.tp==='income').reduce((s,t)=>s+t.a,0):0;
     const e2=d2?d2.t.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.a,0):0;
-    const ih=Math.round((i2/mb)*80),eh=Math.round((e2/mb)*80);
+    const ih=Math.round((i2/mb)*88),eh=Math.round((e2/mb)*88);
     return`<div class="cbw">
-      <div style="display:flex;gap:3px;align-items:flex-end;height:80px;">
-        <div class="cbo" style="width:11px;height:80px;">
+      <div style="display:flex;gap:3px;align-items:flex-end;height:88px;">
+        <div class="cbo" style="width:12px;height:88px;">
           <div class="cbi" style="background:var(--ac);height:${ih}px;${cur?'box-shadow:0 0 8px rgba(91,141,238,.7)':''}"></div>
         </div>
-        <div class="cbo" style="width:11px;height:80px;">
+        <div class="cbo" style="width:12px;height:88px;">
           <div class="cbi" style="background:var(--re);height:${eh}px;"></div>
         </div>
       </div>
@@ -438,7 +403,7 @@ function render(){
   const sav=Math.max(net,0);
   const gp=goal>0?Math.min(Math.round((sav/goal)*100),100):0;
   document.getElementById('gPct').textContent=gp+'%';
-  document.getElementById('donut').style.strokeDashoffset=226-(226*gp/100);
+  document.getElementById('donut').style.strokeDashoffset=251-(251*gp/100);
   const gs=document.getElementById('gSt');
   gs.textContent=goal>0?(sav>=goal?'🎉 Goal achieved! Great work!':fmt(sav)+' saved of '+fmt(goal)):'Set a savings target above';
 }
